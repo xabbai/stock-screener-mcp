@@ -7,6 +7,8 @@ name = "tv-mcp"
 version = "0.1.0"
 description = "A tool for stock recommendations using the tradingview API."
 readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
     { name="xabbai", email="xabbu-nfo@hotmail.com" }
 ]
@@ -29,12 +31,25 @@ cookies = [
     "rookiepy"
 ]
 
-[tool.hatch.metadata]
-license = "MIT"
-url = "https://github.com/xabbai/tv-mcp"
+[project.urls]
+Homepage = "https://github.com/xabbai/tv-mcp"
+Repository = "https://github.com/xabbai/tv-mcp"
+Issues = "https://github.com/xabbai/tv-mcp/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/tv_mcp"]
+
+[tool.hatch.build.targets.sdist]
+only-include = [
+    "src",
+    "tests",
+    "README.md",
+    "LICENSE",
+    "pyproject.toml",
+    "pytest.ini",
+    "config.json",
+]
+exclude = ["**/__pycache__"]
 
 [tool.hatch.envs.default]
 python = "3.11"

@@ -1,2 +1,30 @@
+# Python
 __pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Secrets and local state — never commit
+.env
+.env.*
+*.log
+*.pem
+*.key
+
+# Local tooling and editor config
+.roo/
+.vscode/
+.idea/
+
+# Vendored upstream checkouts used only for reference (have their own licenses)
+dependencies/
+
+# Legacy planning notes and personal scripts (not part of the project)
 .planning/
+migrate-mcp-memory/
+rename.sh
