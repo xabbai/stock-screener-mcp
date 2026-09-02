@@ -4,6 +4,9 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ## [Unreleased]
 
+### Added
+- `DISCLAIMER.md`: the maintainer makes no claim that returned data is correct or up to date and accepts no liability for wrong data from the tool or TradingView; referenced from README and release notes.
+
 ## [0.1.0] - 2026-09-02
 
 First public release (draft until the `v0.1.0` tag exists).

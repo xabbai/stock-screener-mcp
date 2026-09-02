@@ -39,7 +39,7 @@ The client calls `screen_stocks` with four filters and gets `{"total_count": …
 - Uses the community `tradingview-screener` library and an undocumented TradingView endpoint; fields and behavior can change without notice. **Not affiliated with TradingView.**
 - Public data may be delayed for some exchanges; authenticated data depends on your own TradingView plan.
 - Screening only: no historical series, streaming, alerts or order execution.
-- Screening data is not investment advice and carries no guarantee of accuracy or timeliness.
+- The maintainer does not claim returned data is correct, complete, or up to date and accepts no liability for wrong, delayed, or missing data from this tool or TradingView; nothing here is investment advice. See [DISCLAIMER.md](../../DISCLAIMER.md).
 
 ## Compatibility
 

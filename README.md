@@ -194,7 +194,7 @@ By default tv-mcp queries TradingView's public screener, which is delayed for so
 ## Limitations and disclaimers
 
 - **Not affiliated with TradingView.** tv-mcp uses the community [`tradingview-screener`](https://github.com/shner-elmo/TradingView-Screener) library, which relies on an undocumented TradingView endpoint. Field names, limits and availability can change without notice, and your use is subject to TradingView's terms of service.
-- **Not investment advice.** tv-mcp is a screening tool. It returns market data as provided by TradingView and does not constitute a recommendation, or a guarantee of accuracy, completeness or timeliness.
+- **No accuracy claim, no liability.** The maintainer does not claim that any data returned is correct, complete, or up to date, and cannot be held liable for wrong, delayed, or missing data returned by this tool or by TradingView. Use at your own risk; nothing here is investment advice. Full text: [DISCLAIMER.md](DISCLAIMER.md).
 - Screeners return the current state only: no historical time series, backtesting, streaming, alerts, or order execution.
 - Some fields are only populated for specific instrument types (ETF, IPO) or markets.
 
