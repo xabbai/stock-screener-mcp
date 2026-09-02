@@ -4,6 +4,8 @@ import logging
 import os
 import sys
 from difflib import get_close_matches
+from importlib.metadata import PackageNotFoundError
+from importlib.metadata import version as _pkg_version
 from pathlib import Path
 from typing import Any
 
@@ -27,6 +29,11 @@ DEFAULT_CONFIG: dict[str, Any] = {
 
 SUPPORTED_TRANSPORTS = {"streamable-http", "stdio"}
 CONFIG_ENV_VAR = "STOCK_TOOLS_CONFIG"
+
+try:
+    __version__ = _pkg_version("tv-mcp")
+except PackageNotFoundError:  # running from a plain source tree without installation
+    __version__ = "0.0.0+unknown"
 
 # Browser-cookie policy for authenticated/live TradingView data.
 #   auto (default): use Chrome cookies if the optional `rookiepy` extra is installed
@@ -626,6 +633,7 @@ def _build_arg_parser() -> argparse.ArgumentParser:
         prog="tv-mcp-server",
         description="Run the tv-mcp TradingView screener MCP server.",
     )
+    parser.add_argument("--version", action="version", version=f"tv-mcp {__version__}")
     parser.add_argument(
         "--config",
         help=(

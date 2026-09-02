@@ -18,6 +18,14 @@ def test_field_registry_imported_as_package_module():
     assert "tv_mcp.field_registry" in sys.modules
 
 
+def test_version_flag_prints_package_version(capsys):
+    with pytest.raises(SystemExit) as exc:
+        server._parse_args(["--version"])
+    assert exc.value.code == 0
+    assert capsys.readouterr().out.strip() == f"tv-mcp {server.__version__}"
+    assert server.__version__ not in ("", "0.0.0+unknown")
+
+
 def test_parse_args_defaults():
     args = server._parse_args([])
     assert args.config is None and args.transport is None and args.host is None and args.port is None

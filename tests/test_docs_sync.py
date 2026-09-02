@@ -113,3 +113,14 @@ def test_readme_relative_links_resolve():
         if not t.startswith(("http://", "https://")) and t not in pending and not (ROOT / t).exists()
     )
     assert not missing, f"README links to missing files: {missing}"
+
+
+def test_version_consistent_across_pyproject_runtime_and_changelog():
+    import tomllib
+
+    from tv_mcp.tv_mcp import __version__
+
+    pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text())["project"]["version"]
+    changelog = (ROOT / "CHANGELOG.md").read_text()
+    top = re.search(r"^## \[(\d+\.\d+\.\d+)\]", changelog, re.M).group(1)
+    assert pyproject == __version__ == top, (pyproject, __version__, top)
