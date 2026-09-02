@@ -54,6 +54,24 @@ The server reads configuration from `config.json`. It is located at the reposito
 }
 ```
 
+### Command-line flags
+
+Flags override values from `config.json`:
+
+| Flag | Description |
+|------|-------------|
+| `--transport {stdio,streamable-http}` | Transport to use. Use `stdio` for MCP clients that launch the server as a subprocess. |
+| `--host HOST` | HTTP bind host (`streamable-http` only) |
+| `--port PORT` | HTTP port (`streamable-http` only) |
+| `--config PATH` | Path to a `config.json` |
+
+### Environment variables
+
+| Variable | Description |
+|----------|-------------|
+| `STOCK_TOOLS_CONFIG` | Path to `config.json` (overridden by `--config`) |
+| `TV_MCP_BROWSER_COOKIES` | `auto` (default): use Chrome cookies for authenticated TradingView data if the optional `rookiepy` extra is installed; `off`: public data only; `on`: require cookies and fail if unavailable. See [Live Data](#live-data-optional). |
+
 ### Supported transports
 
 | Transport | Description |
