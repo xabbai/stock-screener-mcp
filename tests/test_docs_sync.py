@@ -102,3 +102,14 @@ def test_docstring_field_lists_match_registry():
         if ":" in line:
             names |= {n.strip() for n in line.split(":", 1)[1].split(",") if n.strip()}
     assert names == ALL_FIELDS, f"docstring vs registry: missing={ALL_FIELDS - names} extra={names - ALL_FIELDS}"
+
+
+def test_readme_relative_links_resolve():
+    """Every relative link/image target in README must exist (demo asset is produced in Phase 13)."""
+    pending = {"docs/assets/demo.gif", "docs/demo-script.md"}  # created by Phase 13 (demo)
+    targets = re.findall(r"\]\(([^)#\s]+)(?:#[^)]*)?\)", README)
+    missing = sorted(
+        t for t in set(targets)
+        if not t.startswith(("http://", "https://")) and t not in pending and not (ROOT / t).exists()
+    )
+    assert not missing, f"README links to missing files: {missing}"
