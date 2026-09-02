@@ -1,0 +1,50 @@
+name: Feature request
+description: Propose a new field, market, client configuration, or capability
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Most requests are new TradingView fields. Check [docs/field-reference.md](../blob/main/docs/field-reference.md) first, and look up the exact name in the [community field list](https://shner-elmo.github.io/TradingView-Screener/fields/stocks.html) if you can.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of request is this?
+      options:
+        - New TradingView field(s)
+        - Market or exchange support
+        - MCP client configuration / compatibility
+        - Filter or query capability
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: The screen you want to run, in plain language.
+      placeholder: "Find stocks whose MACD histogram just turned positive with above-average volume."
+    validations:
+      required: true
+  - type: input
+    id: field
+    attributes:
+      label: TradingView field name(s), if known
+      placeholder: "MACD.hist, MACD.signal"
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: What should tv-mcp expose or do differently?
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Workarounds you tried
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Contribution
+      options:
+        - label: I am willing to open a pull request for this (see CONTRIBUTING.md)

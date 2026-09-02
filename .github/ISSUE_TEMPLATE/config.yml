@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability (private)
+    url: https://github.com/xabbai/tv-mcp/security/advisories/new
+    about: Report cookie handling, credential exposure, or dependency vulnerabilities privately. Do not open a public issue.
+  - name: Setup and troubleshooting guide
+    url: https://github.com/xabbai/tv-mcp/blob/main/docs/troubleshooting.md
+    about: First-run failures, client configuration, empty results, field-name errors.

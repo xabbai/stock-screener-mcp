@@ -1,0 +1,112 @@
+name: Bug report
+description: Something in tv-mcp does not work as documented
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Please **never paste browser cookies, session tokens, or account data**. Redact anything that looks like a credential before submitting.
+        Security problems: use [SECURITY.md](../blob/main/SECURITY.md), not a public issue.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you start
+      options:
+        - label: I searched existing issues
+          required: true
+        - label: I read docs/troubleshooting.md
+          required: true
+  - type: dropdown
+    id: client
+    attributes:
+      label: MCP client
+      options:
+        - Claude Desktop
+        - Claude Code
+        - Cursor
+        - VS Code
+        - Python mcp client / custom
+        - Other (describe below)
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: How did you install tv-mcp?
+      options:
+        - uvx --from git+https://github.com/xabbai/tv-mcp
+        - Local checkout (uv run / pip install -e .)
+        - Other (describe below)
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: macOS 15.1 / Windows 11 / Ubuntu 24.04
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Python and uv versions
+      placeholder: "python 3.12.4, uv 0.5.x (uv --version)"
+    validations:
+      required: true
+  - type: input
+    id: command
+    attributes:
+      label: Exact server command line
+      placeholder: uvx --from git+https://github.com/xabbai/tv-mcp tv-mcp-server --transport stdio
+    validations:
+      required: true
+  - type: dropdown
+    id: transport
+    attributes:
+      label: Transport
+      options:
+        - stdio
+        - streamable-http
+    validations:
+      required: true
+  - type: dropdown
+    id: cookies
+    attributes:
+      label: TV_MCP_BROWSER_COOKIES setting
+      options:
+        - unset / auto (cookies extra not installed)
+        - unset / auto (cookies extra installed)
+        - "off"
+        - "on"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The prompt you gave the client and/or the exact screen_stocks arguments.
+      placeholder: |
+        1. Configure client as in docs/client-configs.md
+        2. Ask: "Find oversold large-cap US stocks"
+        3. Tool call arguments: {...}
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior (error message, empty result, wrong data)
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs (redacted)
+      description: Client MCP log or server stderr. Remove cookies, tokens, usernames, and account identifiers.
+      render: shell
