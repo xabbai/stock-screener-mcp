@@ -5,6 +5,8 @@ import re
 import sys
 from pathlib import Path
 
+import pytest
+
 from tv_mcp.field_registry import FIELD_CATEGORIES, get_all_fields
 from tv_mcp.tv_mcp import ALLOWED_OPERATIONS
 
@@ -124,3 +126,14 @@ def test_version_consistent_across_pyproject_runtime_and_changelog():
     changelog = (ROOT / "CHANGELOG.md").read_text()
     top = re.search(r"^## \[(\d+\.\d+\.\d+)\]", changelog, re.M).group(1)
     assert pyproject == __version__ == top, (pyproject, __version__, top)
+
+
+@pytest.mark.parametrize("doc", sorted(str(p.relative_to(ROOT)) for p in (ROOT / "docs").rglob("*.md")))
+def test_docs_relative_links_resolve(doc):
+    text = (ROOT / doc).read_text()
+    base = (ROOT / doc).parent
+    targets = re.findall(r"\]\(([^)#\s]+)(?:#[^)]*)?\)", text)
+    missing = sorted(
+        t for t in set(targets) if not t.startswith(("http://", "https://", "mailto:")) and not (base / t).exists()
+    )
+    assert not missing, f"{doc} links to missing files: {missing}"
