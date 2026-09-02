@@ -203,9 +203,9 @@ def _format_query_result(query_result: Any, columns: List[str]) -> Dict[str, Any
         raise ValueError("Unexpected response format from TradingView Screener.")
 
     total_count, data_frame = query_result
-    rows: List[Dict[str, Any]] = []
-    for stock in data_frame.itertuples():
-        rows.append({k: v for k, v in stock._asdict().items() if k != "Index"})
+    # to_dict keeps exact column names; itertuples() would rename dotted fields
+    # such as "Value.Traded" or "BB.upper" to positional names like "_8".
+    rows: List[Dict[str, Any]] = data_frame.to_dict(orient="records")
 
     return {"total_count": total_count, "columns": columns, "rows": rows}
 

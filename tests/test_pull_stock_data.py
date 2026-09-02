@@ -3,6 +3,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 
+import pandas as pd
 import pytest
 
 import tv_mcp.tv_mcp as pull_stock_data
@@ -55,18 +56,7 @@ def mock_dataframe():
         ),
     ]
 
-    mock_df = MagicMock()
-    mock_df.itertuples.return_value = rows
-
-    def asdict(row):
-        return row.__dict__
-
-    mock_df.itertuples.return_value = []
-    # Each row needs _asdict for code path
-    for row in rows:
-        row._asdict = asdict.__get__(row)  # type: ignore[attr-defined]
-    mock_df.itertuples.return_value = rows
-    return mock_df
+    return pd.DataFrame([row.__dict__ for row in rows])
 
 
 @pytest.fixture
@@ -83,7 +73,7 @@ def mock_query(monkeypatch, mock_dataframe):
     query_instance.set_index.return_value = query_instance
     query_instance.query = {"columns": ["name", "close"], "markets": ["america"]}
     query_instance.url = "https://scanner.tradingview.com/america/scan"
-    query_instance.get_scanner_data.return_value = (len(mock_dataframe.itertuples()), mock_dataframe)
+    query_instance.get_scanner_data.return_value = (len(mock_dataframe), mock_dataframe)
 
     query_cls = MagicMock(return_value=query_instance)
     monkeypatch.setattr(pull_stock_data, "Query", query_cls)
@@ -97,6 +87,18 @@ def test_deserialize_content_variants():
     assert pull_stock_data.deserialize_content(json_content) == {"stock_data": []}
     assert pull_stock_data.deserialize_content(plain_text_content) == "raw string"
     assert pull_stock_data.deserialize_content([]) is None
+
+
+def test_format_query_result_keeps_dotted_field_names():
+    """Regression: itertuples() renamed 'Value.Traded' to '_8'; to_dict must keep exact names."""
+    df = pd.DataFrame([
+        {"ticker": "NYSE:HWM", "name": "HWM", "Value.Traded": 1.4e9, "BB.upper": 260.1, "Perf.1M": 3.2},
+    ])
+    result = pull_stock_data._format_query_result((1, df), ["name", "Value.Traded", "BB.upper", "Perf.1M"])
+    assert result["rows"] == [
+        {"ticker": "NYSE:HWM", "name": "HWM", "Value.Traded": 1.4e9, "BB.upper": 260.1, "Perf.1M": 3.2}
+    ]
+    assert result["total_count"] == 1
 
 
 def test_load_server_config_defaults_when_missing(tmp_path):

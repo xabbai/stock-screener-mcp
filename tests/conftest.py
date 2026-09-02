@@ -2,6 +2,7 @@ import json
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 
+import pandas as pd
 import pytest
 import pytest_asyncio
 from mcp.server.fastmcp import FastMCP
@@ -99,17 +100,7 @@ def mock_e2e_query(monkeypatch):
         ),
     ]
 
-    def bind_asdict(row):
-        row_dict = row.__dict__.copy()
-        row_dict["ticker"] = row.ticker
-        row_dict.pop("_asdict", None)
-        return row_dict
-
-    for row in rows:
-        row._asdict = bind_asdict.__get__(row)  # type: ignore[attr-defined]
-
-    mock_df = MagicMock()
-    mock_df.itertuples.return_value = rows
+    mock_df = pd.DataFrame([row.__dict__ for row in rows])
 
     mock_query = MagicMock()
     mock_query.query = {"columns": ["name", "close"], "markets": ["america"]}
