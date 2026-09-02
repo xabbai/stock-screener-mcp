@@ -2,11 +2,11 @@
 Quick-start smoke tests: launch the installed `tv-mcp-server` CLI exactly as an MCP client would
 and run the README quick-start screen over stdio.
 """
+
 import json
 import os
 import shutil
 import subprocess
-import sys
 
 import pytest
 

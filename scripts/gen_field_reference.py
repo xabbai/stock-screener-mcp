@@ -6,6 +6,7 @@ Usage:
     python scripts/gen_field_reference.py            # write the file
     python scripts/gen_field_reference.py --check    # exit 1 if the file is out of date
 """
+
 from __future__ import annotations
 
 import sys
@@ -70,10 +71,17 @@ def render() -> str:
         "|----------|--------|",
     ]
     for key in FIELD_CATEGORIES:
-        lines.append(f"| [{CATEGORY_TITLES.get(key, key)}](#{CATEGORY_TITLES.get(key, key).lower().replace(' ', '-').replace('/', '').replace('(', '').replace(')', '').replace('&', '').replace('--', '-')}) | {len(FIELD_CATEGORIES[key])} |")
+        lines.append(
+            f"| [{CATEGORY_TITLES.get(key, key)}](#{CATEGORY_TITLES.get(key, key).lower().replace(' ', '-').replace('/', '').replace('(', '').replace(')', '').replace('&', '').replace('--', '-')}) | {len(FIELD_CATEGORIES[key])} |"
+        )
     lines.append("")
     for key, names in FIELD_CATEGORIES.items():
-        lines += [f"## {CATEGORY_TITLES.get(key, key)}", "", "| Field | Type | Units | Range | Description |", "|-------|------|-------|-------|-------------|"]
+        lines += [
+            f"## {CATEGORY_TITLES.get(key, key)}",
+            "",
+            "| Field | Type | Units | Range | Description |",
+            "|-------|------|-------|-------|-------------|",
+        ]
         for name in sorted(names, key=str.lower):
             m = FIELD_METADATA[name]
             lines.append(f"| `{name}` | {m['type']} | {m['units']} | {_range(m['range'])} | {m['description']} |")

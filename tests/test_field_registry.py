@@ -10,7 +10,6 @@ from tradingview_screener import Query
 
 from tv_mcp.field_registry import FIELD_CATEGORIES, FIELD_METADATA, get_all_fields
 
-
 # ============================================================================
 # Category Structure Validation
 # ============================================================================
@@ -28,10 +27,7 @@ def test_no_duplicate_fields_across_categories():
     for category_name, fields in FIELD_CATEGORIES.items():
         for field in fields:
             if field in seen_fields:
-                pytest.fail(
-                    f"Field '{field}' appears in both '{seen_fields[field]}' "
-                    f"and '{category_name}' categories"
-                )
+                pytest.fail(f"Field '{field}' appears in both '{seen_fields[field]}' and '{category_name}' categories")
             seen_fields[field] = category_name
 
 
@@ -91,9 +87,7 @@ def test_valuation_fields_present():
     valuation_category = FIELD_CATEGORIES.get("valuation", set())
 
     missing_fields = required_valuation_fields - valuation_category
-    assert not missing_fields, (
-        f"Missing required valuation fields: {missing_fields}"
-    )
+    assert not missing_fields, f"Missing required valuation fields: {missing_fields}"
 
 
 def test_profitability_fields_present():
@@ -111,9 +105,7 @@ def test_profitability_fields_present():
     profitability_category = FIELD_CATEGORIES.get("profitability", set())
 
     missing_fields = required_profitability_fields - profitability_category
-    assert not missing_fields, (
-        f"Missing required profitability fields: {missing_fields}"
-    )
+    assert not missing_fields, f"Missing required profitability fields: {missing_fields}"
 
 
 def test_growth_fields_present():
@@ -129,9 +121,7 @@ def test_growth_fields_present():
     growth_category = FIELD_CATEGORIES.get("growth", set())
 
     missing_fields = required_growth_fields - growth_category
-    assert not missing_fields, (
-        f"Missing required growth fields: {missing_fields}"
-    )
+    assert not missing_fields, f"Missing required growth fields: {missing_fields}"
 
 
 def test_balance_sheet_fields_present():
@@ -148,9 +138,7 @@ def test_balance_sheet_fields_present():
     balance_sheet_category = FIELD_CATEGORIES.get("balance_sheet", set())
 
     missing_fields = required_balance_sheet_fields - balance_sheet_category
-    assert not missing_fields, (
-        f"Missing required balance sheet fields: {missing_fields}"
-    )
+    assert not missing_fields, f"Missing required balance sheet fields: {missing_fields}"
 
 
 def test_quality_scores_present():
@@ -163,9 +151,7 @@ def test_quality_scores_present():
     quality_category = FIELD_CATEGORIES.get("quality_scores", set())
 
     missing_fields = required_quality_fields - quality_category
-    assert not missing_fields, (
-        f"Missing required quality score fields: {missing_fields}"
-    )
+    assert not missing_fields, f"Missing required quality score fields: {missing_fields}"
 
 
 def test_performance_fields_present():
@@ -186,9 +172,7 @@ def test_performance_fields_present():
     performance_category = FIELD_CATEGORIES.get("performance", set())
 
     missing_fields = required_performance_fields - performance_category
-    assert not missing_fields, (
-        f"Missing required performance fields: {missing_fields}"
-    )
+    assert not missing_fields, f"Missing required performance fields: {missing_fields}"
 
 
 def test_price_extremes_fields_present():
@@ -209,9 +193,7 @@ def test_price_extremes_fields_present():
     price_extremes_category = FIELD_CATEGORIES.get("price_extremes", set())
 
     missing_fields = required_price_extremes_fields - price_extremes_category
-    assert not missing_fields, (
-        f"Missing required price extreme fields: {missing_fields}"
-    )
+    assert not missing_fields, f"Missing required price extreme fields: {missing_fields}"
 
 
 def test_gap_fields_present():
@@ -226,9 +208,7 @@ def test_gap_fields_present():
     gap_category = FIELD_CATEGORIES.get("gap", set())
 
     missing_fields = required_gap_fields - gap_category
-    assert not missing_fields, (
-        f"Missing required gap fields: {missing_fields}"
-    )
+    assert not missing_fields, f"Missing required gap fields: {missing_fields}"
 
 
 def test_dividend_fields_present():
@@ -247,9 +227,7 @@ def test_dividend_fields_present():
     dividend_category = FIELD_CATEGORIES.get("dividend", set())
 
     missing_fields = required_dividend_fields - dividend_category
-    assert not missing_fields, (
-        f"Missing required dividend fields: {missing_fields}"
-    )
+    assert not missing_fields, f"Missing required dividend fields: {missing_fields}"
 
 
 def test_etf_fund_fields_present():
@@ -271,9 +249,7 @@ def test_etf_fund_fields_present():
     etf_fund_category = FIELD_CATEGORIES.get("etf_fund", set())
 
     missing_fields = required_etf_fund_fields - etf_fund_category
-    assert not missing_fields, (
-        f"Missing required ETF/fund fields: {missing_fields}"
-    )
+    assert not missing_fields, f"Missing required ETF/fund fields: {missing_fields}"
 
 
 def test_ipo_fields_present():
@@ -290,9 +266,7 @@ def test_ipo_fields_present():
     ipo_category = FIELD_CATEGORIES.get("ipo", set())
 
     missing_fields = required_ipo_fields - ipo_category
-    assert not missing_fields, (
-        f"Missing required IPO fields: {missing_fields}"
-    )
+    assert not missing_fields, f"Missing required IPO fields: {missing_fields}"
 
 
 def test_advanced_technical_fields_present():
@@ -312,9 +286,7 @@ def test_advanced_technical_fields_present():
     advanced_technical_category = FIELD_CATEGORIES.get("advanced_technical", set())
 
     missing_fields = required_advanced_technical_fields - advanced_technical_category
-    assert not missing_fields, (
-        f"Missing required advanced technical indicator fields: {missing_fields}"
-    )
+    assert not missing_fields, f"Missing required advanced technical indicator fields: {missing_fields}"
 
 
 def test_candlestick_patterns_fields_present():
@@ -336,9 +308,7 @@ def test_candlestick_patterns_fields_present():
     candlestick_patterns_category = FIELD_CATEGORIES.get("candlestick_patterns", set())
 
     missing_fields = required_candlestick_patterns_fields - candlestick_patterns_category
-    assert not missing_fields, (
-        f"Missing required candlestick pattern fields: {missing_fields}"
-    )
+    assert not missing_fields, f"Missing required candlestick pattern fields: {missing_fields}"
 
 
 # ============================================================================
@@ -380,12 +350,12 @@ def test_field_discovery_flags_staleness():
 
     # Test fields in batches to speed up discovery
     for i in range(0, len(all_fields), batch_size):
-        batch = all_fields[i:i + batch_size]
+        batch = all_fields[i : i + batch_size]
 
         try:
             query = Query().select(*batch).limit(1)
             query.get_scanner_data()
-        except Exception as batch_error:
+        except Exception:
             # Batch failed - test each field individually to identify the culprit
             for field in batch:
                 try:
@@ -419,7 +389,7 @@ def test_field_types_are_numeric_or_string():
     """
     # Sample 2-3 fields from each category
     sample_fields = []
-    for category_name, fields in FIELD_CATEGORIES.items():
+    for fields in FIELD_CATEGORIES.values():
         field_list = list(fields)
         sample_count = min(3, len(field_list))
         sample_fields.extend(field_list[:sample_count])
@@ -443,12 +413,14 @@ def test_field_types_are_numeric_or_string():
                 value = row_dict[field]
                 # Allow int, float, str, or None
                 if value is not None and not isinstance(value, (int, float, str)):
-                    invalid_types.append({
-                        "field": field,
-                        "value": value,
-                        "type": type(value).__name__,
-                        "ticker": getattr(row, "ticker", "unknown"),
-                    })
+                    invalid_types.append(
+                        {
+                            "field": field,
+                            "value": value,
+                            "type": type(value).__name__,
+                            "ticker": getattr(row, "ticker", "unknown"),
+                        }
+                    )
 
     assert not invalid_types, (
         f"Found unexpected field types from TradingView API: {invalid_types}. "
@@ -482,7 +454,7 @@ def test_expanded_field_set_performance():
     # (generous margin for network variability)
     assert large_time < small_time * 3, (
         f"Performance degradation detected: {large_time:.2f}s vs {small_time:.2f}s "
-        f"(ratio: {large_time/small_time:.1f}x, max allowed: 3x)"
+        f"(ratio: {large_time / small_time:.1f}x, max allowed: 3x)"
     )
 
 
@@ -568,12 +540,12 @@ def test_all_categories_have_api_compatible_fields():
 
     # Test all fields in batches against america market
     for i in range(0, len(all_fields), batch_size):
-        batch = all_fields[i:i + batch_size]
+        batch = all_fields[i : i + batch_size]
 
         try:
             query = Query().set_markets("america").select(*batch).limit(1)
             query.get_scanner_data()
-        except Exception as batch_error:
+        except Exception:
             # Batch failed - test each field individually to identify the culprit
             for field in batch:
                 try:

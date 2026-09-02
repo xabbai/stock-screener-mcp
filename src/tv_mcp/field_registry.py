@@ -7,10 +7,10 @@ All field names match the official TradingView Screener API specification.
 Reference: https://shner-elmo.github.io/TradingView-Screener/fields/stocks.html
 """
 
-from typing import Any, Dict, Optional, Set
+from typing import Any
 
 # Field categories mapping to canonical TradingView field names
-FIELD_CATEGORIES: Dict[str, Set[str]] = {
+FIELD_CATEGORIES: dict[str, set[str]] = {
     "trend": {
         "EMA5",
         "EMA10",
@@ -187,21 +187,23 @@ FIELD_CATEGORIES: Dict[str, Set[str]] = {
 }
 
 
-def get_all_fields() -> Set[str]:
+def get_all_fields() -> set[str]:
     """
     Get the union of all field sets across all categories.
 
     Returns:
         Set[str]: Complete set of all supported TradingView field names.
     """
-    all_fields: Set[str] = set()
+    all_fields: set[str] = set()
     for category_fields in FIELD_CATEGORIES.values():
         all_fields.update(category_fields)
     return all_fields
 
 
-# Field metadata with type, range, units, and description for all fields
-FIELD_METADATA: Dict[str, Dict[str, Any]] = {
+# Field metadata with type, range, units, and description for all fields.
+# One field per line is intentional (greppable table); formatting is disabled for this block.
+# fmt: off
+FIELD_METADATA: dict[str, dict[str, Any]] = {
     # Trend fields
     "EMA5": {"type": "float", "range": None, "units": "currency", "description": "5-period Exponential Moving Average"},
     "EMA10": {"type": "float", "range": None, "units": "currency", "description": "10-period Exponential Moving Average"},
@@ -375,9 +377,10 @@ FIELD_METADATA: Dict[str, Dict[str, Any]] = {
     "Candle.MorningStar": {"type": "float", "range": None, "units": "signal", "description": "Morning Star pattern signal"},
     "Candle.EveningStar": {"type": "float", "range": None, "units": "signal", "description": "Evening Star pattern signal"},
 }
+# fmt: on
 
 
-def get_field_metadata(field_name: str) -> Optional[Dict[str, Any]]:
+def get_field_metadata(field_name: str) -> dict[str, Any] | None:
     """
     Get metadata for a field, or None if field not found.
 

@@ -30,6 +30,9 @@ test = [
 cookies = [
     "rookiepy"
 ]
+dev = [
+    "ruff>=0.6",
+]
 
 [project.urls]
 Homepage = "https://github.com/xabbai/tv-mcp"
@@ -53,3 +56,16 @@ exclude = ["**/__pycache__"]
 
 [tool.hatch.envs.default]
 python = "3.11"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+extend-exclude = ["dependencies", ".planning", "migrate-mcp-memory"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B"]
+# E501: the field metadata table keeps one field per line on purpose; formatting is enforced by `ruff format`.
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B011"]

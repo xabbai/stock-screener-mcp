@@ -5,10 +5,10 @@ import os
 import sys
 from difflib import get_close_matches
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from mcp.server.fastmcp import FastMCP
-from tradingview_screener import Query, col
+from tradingview_screener import Query
 from tradingview_screener.query import And, Or
 
 try:  # installed package / `python -m tv_mcp.tv_mcp`
@@ -19,7 +19,7 @@ except ImportError:  # run directly as a script: `python src/tv_mcp/tv_mcp.py`
         sys.path.insert(0, str(_script_dir))
     from field_registry import get_all_fields  # type: ignore[no-redef]
 
-DEFAULT_CONFIG: Dict[str, Any] = {
+DEFAULT_CONFIG: dict[str, Any] = {
     "transport": "streamable-http",
     "http": {"host": "127.0.0.1", "port": 8000},
     "stdio": {},
@@ -95,13 +95,14 @@ def deserialize_content(content):
     first_content = content[0]
 
     # Check if it's a text content block with JSON data
-    if hasattr(first_content, 'text'):
+    if hasattr(first_content, "text"):
         try:
             return json.loads(first_content.text)
         except json.JSONDecodeError:
             return first_content.text
 
     return None
+
 
 def _validate_field(field: str) -> str:
     if not isinstance(field, str):
@@ -140,7 +141,7 @@ def _validate_operation(op: str) -> str:
     return op
 
 
-def _convert_filter_spec(filter_spec: Dict[str, Any]) -> Dict[str, Any]:
+def _convert_filter_spec(filter_spec: dict[str, Any]) -> dict[str, Any]:
     """Validate and normalize a single filter spec to TradingView filter dict."""
     if not isinstance(filter_spec, dict):
         raise ValueError("Each filter must be an object with 'left', 'op', and optional 'right'.")
@@ -158,7 +159,7 @@ def _convert_filter_spec(filter_spec: Dict[str, Any]) -> Dict[str, Any]:
     return {"left": left, "operation": op, "right": right}
 
 
-def _build_logic_tree(node: Dict[str, Any]) -> Dict[str, Any]:
+def _build_logic_tree(node: dict[str, Any]) -> dict[str, Any]:
     """Recursively build an And/Or operation tree for where2."""
     logic = node.get("logic", "and")
     if logic not in {"and", "or"}:
@@ -168,7 +169,7 @@ def _build_logic_tree(node: Dict[str, Any]) -> Dict[str, Any]:
     if not isinstance(conditions, list) or not conditions:
         raise ValueError("conditions must be a non-empty list.")
 
-    operands: List[Dict[str, Any]] = []
+    operands: list[dict[str, Any]] = []
     for cond in conditions:
         if isinstance(cond, dict) and "logic" in cond:
             operands.append(_build_logic_tree(cond))
@@ -197,7 +198,7 @@ def _apply_filters(query: Query, filters: Any) -> Query:
     raise ValueError("filters must be a list or dict.")
 
 
-def _format_query_result(query_result: Any, columns: List[str]) -> Dict[str, Any]:
+def _format_query_result(query_result: Any, columns: list[str]) -> dict[str, Any]:
     """Convert TradingView response to a simple dict."""
     if not isinstance(query_result, tuple) or len(query_result) != 2:
         raise ValueError("Unexpected response format from TradingView Screener.")
@@ -205,22 +206,22 @@ def _format_query_result(query_result: Any, columns: List[str]) -> Dict[str, Any
     total_count, data_frame = query_result
     # to_dict keeps exact column names; itertuples() would rename dotted fields
     # such as "Value.Traded" or "BB.upper" to positional names like "_8".
-    rows: List[Dict[str, Any]] = data_frame.to_dict(orient="records")
+    rows: list[dict[str, Any]] = data_frame.to_dict(orient="records")
 
     return {"total_count": total_count, "columns": columns, "rows": rows}
 
 
 def _screen_stocks(
     filters: Any,
-    columns: List[str],
-    markets: List[str],
+    columns: list[str],
+    markets: list[str],
     sort_by: str,
     sort_order: str,
     nulls_first: bool,
     limit: int,
     offset: int,
     language: str,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Core implementation for the screen_stocks tool.
     """
@@ -250,8 +251,8 @@ def _screen_stocks(
     try:
         limit_val = int(limit)
         offset_val = int(offset)
-    except (TypeError, ValueError):
-        raise ValueError("limit and offset must be integers.")
+    except (TypeError, ValueError) as exc:
+        raise ValueError("limit and offset must be integers.") from exc
 
     if limit_val < 1:
         raise ValueError("limit must be at least 1.")
@@ -276,8 +277,8 @@ def _screen_stocks(
 @mcp.tool()
 def screen_stocks(
     filters: Any,
-    columns: List[str],
-    markets: List[str],
+    columns: list[str],
+    markets: list[str],
     sort_by: str,
     sort_order: str,
     nulls_first: bool,
@@ -485,13 +486,12 @@ def screen_stocks(
         logger.exception("screen_stocks failed: %s", exc)
         return {"error": str(exc)}
 
+
 def _cookie_policy() -> str:
     """Read and validate the browser-cookie policy from the environment."""
     policy = os.getenv(COOKIE_POLICY_ENV, "auto").strip().lower() or "auto"
     if policy not in COOKIE_POLICIES:
-        raise ValueError(
-            f"Invalid {COOKIE_POLICY_ENV}='{policy}'. Use one of {sorted(COOKIE_POLICIES)}."
-        )
+        raise ValueError(f"Invalid {COOKIE_POLICY_ENV}='{policy}'. Use one of {sorted(COOKIE_POLICIES)}.")
     return policy
 
 
@@ -513,7 +513,7 @@ def _load_browser_cookies():
             raise ValueError(
                 f"{COOKIE_POLICY_ENV}=on but the optional 'rookiepy' package is not installed. "
                 "Install it with: pip install 'tv-mcp[cookies]'"
-            )
+            ) from None
         logger.debug("rookiepy not installed; using public TradingView data.")
         return None
 
@@ -528,7 +528,7 @@ def _load_browser_cookies():
         return None
 
 
-def _default_server_config() -> Dict[str, Any]:
+def _default_server_config() -> dict[str, Any]:
     """Return a fresh default config dict."""
     return {
         "transport": DEFAULT_CONFIG["transport"],
@@ -537,7 +537,7 @@ def _default_server_config() -> Dict[str, Any]:
     }
 
 
-def _resolve_config_path(cli_config: Optional[str]) -> Path:
+def _resolve_config_path(cli_config: str | None) -> Path:
     """Resolve config path from CLI flag, env var, or repo root default."""
     if cli_config:
         return Path(cli_config)
@@ -549,21 +549,19 @@ def _resolve_config_path(cli_config: Optional[str]) -> Path:
     return Path(__file__).resolve().parents[2] / "config.json"
 
 
-def _validate_server_config(config: Dict[str, Any]) -> Dict[str, Any]:
+def _validate_server_config(config: dict[str, Any]) -> dict[str, Any]:
     """Validate and normalize server configuration."""
     transport = config.get("transport", DEFAULT_CONFIG["transport"])
     if transport not in SUPPORTED_TRANSPORTS:
-        raise ValueError(
-            f"Unsupported transport '{transport}'. Use one of {sorted(SUPPORTED_TRANSPORTS)}."
-        )
+        raise ValueError(f"Unsupported transport '{transport}'. Use one of {sorted(SUPPORTED_TRANSPORTS)}.")
 
     http_config = config.get("http", {})
     host = http_config.get("host", DEFAULT_CONFIG["http"]["host"])
     port = http_config.get("port", DEFAULT_CONFIG["http"]["port"])
     try:
         port = int(port)
-    except (TypeError, ValueError):
-        raise ValueError("HTTP port must be an integer")
+    except (TypeError, ValueError) as exc:
+        raise ValueError("HTTP port must be an integer") from exc
 
     if not (0 < port < 65536):
         raise ValueError("HTTP port must be between 1 and 65535")
@@ -577,7 +575,7 @@ def _validate_server_config(config: Dict[str, Any]) -> Dict[str, Any]:
     return config
 
 
-def _load_server_config(config_path: Path) -> Dict[str, Any]:
+def _load_server_config(config_path: Path) -> dict[str, Any]:
     """Load server configuration from a JSON file, applying defaults."""
     config = _default_server_config()
 
@@ -602,7 +600,7 @@ def _load_server_config(config_path: Path) -> Dict[str, Any]:
     return _validate_server_config(config)
 
 
-def _run_server(config: Dict[str, Any]) -> None:
+def _run_server(config: dict[str, Any]) -> None:
     """Start the MCP server with the provided configuration."""
     transport = config["transport"]
 
@@ -646,11 +644,11 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
+def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     return _build_arg_parser().parse_args(argv)
 
 
-def _apply_cli_overrides(config: Dict[str, Any], args: argparse.Namespace) -> Dict[str, Any]:
+def _apply_cli_overrides(config: dict[str, Any], args: argparse.Namespace) -> dict[str, Any]:
     """Apply --transport/--host/--port on top of the loaded config and re-validate."""
     if getattr(args, "transport", None):
         config["transport"] = args.transport
@@ -661,7 +659,7 @@ def _apply_cli_overrides(config: Dict[str, Any], args: argparse.Namespace) -> Di
     return _validate_server_config(config)
 
 
-def _main(argv: Optional[List[str]] = None) -> None:
+def _main(argv: list[str] | None = None) -> None:
     args = _parse_args(argv)
     config_path = _resolve_config_path(args.config)
     config = _apply_cli_overrides(_load_server_config(config_path), args)
@@ -669,5 +667,5 @@ def _main(argv: Optional[List[str]] = None) -> None:
     _run_server(config)
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     _main()

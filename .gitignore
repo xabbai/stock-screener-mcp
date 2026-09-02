@@ -28,3 +28,4 @@ dependencies/
 .planning/
 migrate-mcp-memory/
 rename.sh
+scripts/mcp_sdk_proto.py

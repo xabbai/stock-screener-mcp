@@ -1,4 +1,5 @@
 """CLI flag, precedence, branding and browser-cookie policy tests (Phase 10)."""
+
 import json
 import sys
 import types
@@ -73,6 +74,7 @@ def test_main_stdio_flag_without_config(monkeypatch, tmp_path):
 
 # --- browser-cookie policy -------------------------------------------------
 
+
 def _fake_rookiepy(monkeypatch, fail=False):
     mod = types.ModuleType("rookiepy")
     mod.chrome = MagicMock(side_effect=RuntimeError("no profile") if fail else None, return_value=[])
@@ -135,7 +137,14 @@ def test_screen_stocks_surfaces_cookie_policy_error(monkeypatch):
     _no_rookiepy(monkeypatch)
     monkeypatch.setattr(server, "Query", MagicMock())  # must never reach the network
     result = server.screen_stocks(
-        filters=[], columns=[], markets=[], sort_by="", sort_order="desc",
-        nulls_first=False, limit=5, offset=0, language="en",
+        filters=[],
+        columns=[],
+        markets=[],
+        sort_by="",
+        sort_order="desc",
+        nulls_first=False,
+        limit=5,
+        offset=0,
+        language="en",
     )
     assert "rookiepy" in result["error"]

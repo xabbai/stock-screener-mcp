@@ -1,12 +1,11 @@
 """Documentation drift guards: README and docs/field-reference.md must agree with the code."""
+
 import json
 import re
 import sys
 from pathlib import Path
 
-import pytest
-
-from tv_mcp.field_registry import FIELD_CATEGORIES, FIELD_METADATA, get_all_fields
+from tv_mcp.field_registry import FIELD_CATEGORIES, get_all_fields
 from tv_mcp.tv_mcp import ALLOWED_OPERATIONS
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -109,7 +108,8 @@ def test_readme_relative_links_resolve():
     pending = {"docs/assets/demo.gif", "docs/demo-script.md"}  # created by Phase 13 (demo)
     targets = re.findall(r"\]\(([^)#\s]+)(?:#[^)]*)?\)", README)
     missing = sorted(
-        t for t in set(targets)
+        t
+        for t in set(targets)
         if not t.startswith(("http://", "https://")) and t not in pending and not (ROOT / t).exists()
     )
     assert not missing, f"README links to missing files: {missing}"

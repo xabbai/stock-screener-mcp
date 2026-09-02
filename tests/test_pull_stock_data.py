@@ -1,5 +1,4 @@
 import json
-from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 
@@ -91,9 +90,11 @@ def test_deserialize_content_variants():
 
 def test_format_query_result_keeps_dotted_field_names():
     """Regression: itertuples() renamed 'Value.Traded' to '_8'; to_dict must keep exact names."""
-    df = pd.DataFrame([
-        {"ticker": "NYSE:HWM", "name": "HWM", "Value.Traded": 1.4e9, "BB.upper": 260.1, "Perf.1M": 3.2},
-    ])
+    df = pd.DataFrame(
+        [
+            {"ticker": "NYSE:HWM", "name": "HWM", "Value.Traded": 1.4e9, "BB.upper": 260.1, "Perf.1M": 3.2},
+        ]
+    )
     result = pull_stock_data._format_query_result((1, df), ["name", "Value.Traded", "BB.upper", "Perf.1M"])
     assert result["rows"] == [
         {"ticker": "NYSE:HWM", "name": "HWM", "Value.Traded": 1.4e9, "BB.upper": 260.1, "Perf.1M": 3.2}
@@ -113,11 +114,7 @@ def test_load_server_config_defaults_when_missing(tmp_path):
 
 def test_load_server_config_applies_overrides_and_validates(tmp_path):
     config_path = tmp_path / "config.json"
-    config_path.write_text(
-        json.dumps(
-            {"transport": "streamable-http", "http": {"host": "0.0.0.0", "port": "9001"}}
-        )
-    )
+    config_path.write_text(json.dumps({"transport": "streamable-http", "http": {"host": "0.0.0.0", "port": "9001"}}))
 
     config = pull_stock_data._load_server_config(config_path)
 
@@ -171,7 +168,7 @@ def test_screen_stocks_basic_flow(mock_query):
         nulls_first=False,
         limit=10,
         offset=5,
-        language="en"
+        language="en",
     )
 
     assert result["total_count"] == 2
@@ -184,7 +181,10 @@ def test_screen_stocks_basic_flow(mock_query):
 
 
 def test_screen_stocks_or_logic_uses_where2(mock_query):
-    filters = {"logic": "or", "conditions": [{"left": "RSI", "op": "less", "right": 30}, {"left": "close", "op": "greater", "right": 100}]}
+    filters = {
+        "logic": "or",
+        "conditions": [{"left": "RSI", "op": "less", "right": 30}, {"left": "close", "op": "greater", "right": 100}],
+    }
 
     pull_stock_data._screen_stocks(
         filters=filters,
@@ -195,7 +195,7 @@ def test_screen_stocks_or_logic_uses_where2(mock_query):
         nulls_first=False,
         limit=50,
         offset=0,
-        language="en"
+        language="en",
     )
 
     mock_query.where2.assert_called_once()
@@ -212,7 +212,7 @@ def test_screen_stocks_validation_error_returns_error():
             nulls_first=False,
             limit=50,
             offset=0,
-            language="en"
+            language="en",
         )
 
 
@@ -221,24 +221,52 @@ def test_screen_stocks_validation_error_returns_error():
 # ============================================================================
 
 # Original 39 fields that existed before field registry expansion
-ORIGINAL_ALLOWED_FIELDS = frozenset({
-    # Trend
-    "EMA5", "EMA10", "EMA20", "EMA50", "EMA100", "EMA200", "ADX",
-    "Ichimoku.BLine", "Ichimoku.CLine",
-    # Momentum
-    "RSI", "CCI20", "AO", "Stoch.K", "Stoch.D",
-    # Volatility
-    "ATR", "BB.upper", "BB.lower", "BBPower",
-    # Volume & Flow
-    "ChaikinMoneyFlow", "average_volume_10d_calc", "average_volume_30d_calc",
-    "relative_volume_10d_calc",
-    # Composite signals
-    "Recommend.All", "Recommend.MA", "Recommend.Other",
-    # Price & structure
-    "close", "open", "high", "low", "change", "change_abs",
-    # Common base fields
-    "name", "volume", "market_cap_basic", "Value.Traded",
-})
+ORIGINAL_ALLOWED_FIELDS = frozenset(
+    {
+        # Trend
+        "EMA5",
+        "EMA10",
+        "EMA20",
+        "EMA50",
+        "EMA100",
+        "EMA200",
+        "ADX",
+        "Ichimoku.BLine",
+        "Ichimoku.CLine",
+        # Momentum
+        "RSI",
+        "CCI20",
+        "AO",
+        "Stoch.K",
+        "Stoch.D",
+        # Volatility
+        "ATR",
+        "BB.upper",
+        "BB.lower",
+        "BBPower",
+        # Volume & Flow
+        "ChaikinMoneyFlow",
+        "average_volume_10d_calc",
+        "average_volume_30d_calc",
+        "relative_volume_10d_calc",
+        # Composite signals
+        "Recommend.All",
+        "Recommend.MA",
+        "Recommend.Other",
+        # Price & structure
+        "close",
+        "open",
+        "high",
+        "low",
+        "change",
+        "change_abs",
+        # Common base fields
+        "name",
+        "volume",
+        "market_cap_basic",
+        "Value.Traded",
+    }
+)
 
 
 def test_screen_stocks_backward_compat_original_fields():
@@ -253,8 +281,7 @@ def test_screen_stocks_backward_compat_original_fields():
     missing_fields = ORIGINAL_ALLOWED_FIELDS - current_fields
 
     assert not missing_fields, (
-        f"Field expansion must not remove existing fields. "
-        f"Missing original fields: {sorted(missing_fields)}"
+        f"Field expansion must not remove existing fields. Missing original fields: {sorted(missing_fields)}"
     )
 
 
@@ -318,6 +345,7 @@ def test_validate_field_still_rejects_unknown_fields():
 # ============================================================================
 # Fuzzy Matching Validation Tests (PERF-05)
 # ============================================================================
+
 
 def test_validate_field_suggests_similar_fields():
     """Verify fuzzy matching suggests close field names for typos."""
