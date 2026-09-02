@@ -7,16 +7,17 @@ from difflib import get_close_matches
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-# Ensure field_registry can be imported when script is run directly via stdio
-_script_dir = Path(__file__).parent.resolve()
-if str(_script_dir) not in sys.path:
-    sys.path.insert(0, str(_script_dir))
-
 from mcp.server.fastmcp import FastMCP
 from tradingview_screener import Query, col
 from tradingview_screener.query import And, Or
 
-from field_registry import get_all_fields
+try:  # installed package / `python -m tv_mcp.tv_mcp`
+    from .field_registry import get_all_fields
+except ImportError:  # run directly as a script: `python src/tv_mcp/tv_mcp.py`
+    _script_dir = Path(__file__).parent.resolve()
+    if str(_script_dir) not in sys.path:
+        sys.path.insert(0, str(_script_dir))
+    from field_registry import get_all_fields  # type: ignore[no-redef]
 
 DEFAULT_CONFIG: Dict[str, Any] = {
     "transport": "streamable-http",
@@ -26,6 +27,13 @@ DEFAULT_CONFIG: Dict[str, Any] = {
 
 SUPPORTED_TRANSPORTS = {"streamable-http", "stdio"}
 CONFIG_ENV_VAR = "STOCK_TOOLS_CONFIG"
+
+# Browser-cookie policy for authenticated/live TradingView data.
+#   auto (default): use Chrome cookies if the optional `rookiepy` extra is installed
+#   on:             require cookies; fail loudly if rookiepy is missing or extraction fails
+#   off:            never touch browser cookies (public data only)
+COOKIE_POLICY_ENV = "TV_MCP_BROWSER_COOKIES"
+COOKIE_POLICIES = {"auto", "on", "off"}
 
 ALLOWED_SCREEN_FIELDS: set[str] = get_all_fields()
 
@@ -67,7 +75,7 @@ _ASCII_BANNER = r"""
   |_|      \_/            |_|  |_|  \____| |_|
 """
 
-mcp = FastMCP("Stock Data Server")
+mcp = FastMCP("tv-mcp")
 
 
 def deserialize_content(content):
@@ -254,15 +262,7 @@ def _screen_stocks(
 
     query.limit(limit_val).offset(offset_val)
 
-    # Try to use rookiepy for live data if available
-    cookies = None
-    try:
-        import rookiepy
-        cookies = rookiepy.to_cookiejar(rookiepy.chrome(['.tradingview.com']))
-        logging.info("Using rookiepy cookies for live data access")
-    except (ImportError, Exception) as e:
-        logging.debug(f"rookiepy not available or failed: {e}. Using public data.")
-        cookies = None
+    cookies = _load_browser_cookies()
 
     result = query.get_scanner_data(cookies=cookies) if cookies else query.get_scanner_data()
     response = _format_query_result(result, validated_columns or query.query.get("columns", []))
@@ -485,6 +485,49 @@ def screen_stocks(
         logger.exception("screen_stocks failed: %s", exc)
         return {"error": str(exc)}
 
+def _cookie_policy() -> str:
+    """Read and validate the browser-cookie policy from the environment."""
+    policy = os.getenv(COOKIE_POLICY_ENV, "auto").strip().lower() or "auto"
+    if policy not in COOKIE_POLICIES:
+        raise ValueError(
+            f"Invalid {COOKIE_POLICY_ENV}='{policy}'. Use one of {sorted(COOKIE_POLICIES)}."
+        )
+    return policy
+
+
+def _load_browser_cookies():
+    """
+    Return a cookie jar for tradingview.com according to TV_MCP_BROWSER_COOKIES, or None.
+
+    Cookies are read from the local Chrome profile via the optional `rookiepy` extra and are
+    only held in memory for the current request. They are never written to disk or logged.
+    """
+    policy = _cookie_policy()
+    if policy == "off":
+        return None
+
+    try:
+        import rookiepy  # optional extra: pip install "tv-mcp[cookies]"
+    except ImportError:
+        if policy == "on":
+            raise ValueError(
+                f"{COOKIE_POLICY_ENV}=on but the optional 'rookiepy' package is not installed. "
+                "Install it with: pip install 'tv-mcp[cookies]'"
+            )
+        logger.debug("rookiepy not installed; using public TradingView data.")
+        return None
+
+    try:
+        cookies = rookiepy.to_cookiejar(rookiepy.chrome([".tradingview.com"]))
+        logger.info("Using Chrome cookies for authenticated TradingView data.")
+        return cookies
+    except Exception as exc:
+        if policy == "on":
+            raise ValueError(f"Could not read Chrome cookies for tradingview.com: {exc}") from exc
+        logger.debug("Cookie extraction failed (%s); using public TradingView data.", exc)
+        return None
+
+
 def _default_server_config() -> Dict[str, Any]:
     """Return a fresh default config dict."""
     return {
@@ -580,22 +623,48 @@ def _run_server(config: Dict[str, Any]) -> None:
         raise ValueError(f"Unsupported transport '{transport}'")
 
 
-def _parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run the Stock Data FastMCP server.")
+def _build_arg_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="tv-mcp-server",
+        description="Run the tv-mcp TradingView screener MCP server.",
+    )
     parser.add_argument(
         "--config",
         help=(
             "Path to config.json controlling transport and server settings. "
-            "Defaults to STOCK_TOOLS_CONFIG env or repository root config.json."
+            f"Defaults to the {CONFIG_ENV_VAR} env var or the repository root config.json."
         ),
     )
-    return parser.parse_args()
+    parser.add_argument(
+        "--transport",
+        choices=sorted(SUPPORTED_TRANSPORTS),
+        help="Transport to use. Overrides the config file. 'stdio' for MCP clients that launch "
+        "the server as a subprocess; 'streamable-http' to serve http://HOST:PORT/mcp.",
+    )
+    parser.add_argument("--host", help="HTTP bind host (streamable-http only). Overrides the config file.")
+    parser.add_argument("--port", type=int, help="HTTP port (streamable-http only). Overrides the config file.")
+    return parser
 
 
-def _main() -> None:
-    args = _parse_args()
+def _parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
+    return _build_arg_parser().parse_args(argv)
+
+
+def _apply_cli_overrides(config: Dict[str, Any], args: argparse.Namespace) -> Dict[str, Any]:
+    """Apply --transport/--host/--port on top of the loaded config and re-validate."""
+    if getattr(args, "transport", None):
+        config["transport"] = args.transport
+    if getattr(args, "host", None):
+        config.setdefault("http", {})["host"] = args.host
+    if getattr(args, "port", None) is not None:
+        config.setdefault("http", {})["port"] = args.port
+    return _validate_server_config(config)
+
+
+def _main(argv: Optional[List[str]] = None) -> None:
+    args = _parse_args(argv)
     config_path = _resolve_config_path(args.config)
-    config = _load_server_config(config_path)
+    config = _apply_cli_overrides(_load_server_config(config_path), args)
     logging.info(f"Using config from {config_path} with transport={config['transport']}")
     _run_server(config)
 
