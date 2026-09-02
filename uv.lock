@@ -1012,11 +1012,11 @@ test = [
 
 [package.metadata]
 requires-dist = [
-    { name = "mcp", specifier = ">=1.26" },
+    { name = "mcp", specifier = ">=1.26,<2" },
     { name = "pytest", marker = "extra == 'test'", specifier = ">=9.0" },
     { name = "pytest-asyncio", marker = "extra == 'test'", specifier = ">=1.3" },
     { name = "rookiepy", marker = "extra == 'cookies'" },
-    { name = "tradingview-screener", specifier = ">=3.0" },
+    { name = "tradingview-screener", specifier = ">=3.0,<4" },
 ]
 provides-extras = ["test", "cookies"]
 

@@ -3,5 +3,5 @@
 # Install with: pip install -r requirements.txt
 # For reproducible installs: pip install -r requirements.txt -c constraints.txt
 
-mcp>=1.26
-tradingview-screener>=3.0
+mcp>=1.26,<2
+tradingview-screener>=3.0,<4

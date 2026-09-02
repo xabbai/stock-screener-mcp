@@ -15,8 +15,8 @@ authors = [
 requires-python = ">=3.11"
 
 dependencies = [
-    "mcp>=1.26",
-    "tradingview-screener>=3.0",
+    "mcp>=1.26,<2",
+    "tradingview-screener>=3.0,<4",
 ]
 
 [project.scripts]
