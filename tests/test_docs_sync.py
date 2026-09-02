@@ -105,7 +105,7 @@ def test_docstring_field_lists_match_registry():
 
 def test_readme_relative_links_resolve():
     """Every relative link/image target in README must exist (demo asset is produced in Phase 13)."""
-    pending = {"docs/assets/demo.gif", "docs/demo-script.md"}  # created by Phase 13 (demo)
+    pending: set[str] = set()
     targets = re.findall(r"\]\(([^)#\s]+)(?:#[^)]*)?\)", README)
     missing = sorted(
         t

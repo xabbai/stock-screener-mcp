@@ -10,7 +10,7 @@ An open-source [MCP](https://modelcontextprotocol.io) server that lets Claude, C
 
 ![Demo: an MCP client asks for oversold large-cap US stocks above their 200-day EMA, tv-mcp calls screen_stocks and returns a ranked table](docs/assets/demo.gif)
 
-*Demo recording coming soon — see [docs/demo-script.md](docs/demo-script.md) for the reproducible script.*
+*Rendered from a real screen result (public data, 2026-09-02); [docs/demo-script.md](docs/demo-script.md) has the prompt, expected call, and steps to record a GUI client.*
 
 ## What can I ask?
 
