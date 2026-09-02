@@ -34,11 +34,14 @@ FIELD_CATEGORIES: Dict[str, Set[str]] = {
         "BB.upper",
         "BB.lower",
         "BBPower",
+        "DonchCh20.Upper",
+        "DonchCh20.Lower",
     },
     "volume_flow": {
         "ChaikinMoneyFlow",
         "average_volume_10d_calc",
         "average_volume_30d_calc",
+        "average_volume_60d_calc",
         "relative_volume_10d_calc",
     },
     "composite_signals": {
@@ -105,6 +108,8 @@ FIELD_CATEGORIES: Dict[str, Set[str]] = {
         "Perf.5Y",
         "Perf.YTD",
         "Perf.5D",
+        "Perf.Y",
+        "Perf.10Y",
     },
     "price_extremes": {
         "price_52_week_high",
@@ -220,11 +225,14 @@ FIELD_METADATA: Dict[str, Dict[str, Any]] = {
     "BB.upper": {"type": "float", "range": None, "units": "currency", "description": "Upper Bollinger Band"},
     "BB.lower": {"type": "float", "range": None, "units": "currency", "description": "Lower Bollinger Band"},
     "BBPower": {"type": "float", "range": None, "units": "index", "description": "Bull/Bear Power indicator"},
+    "DonchCh20.Upper": {"type": "float", "range": None, "units": "currency", "description": "Upper Donchian Channel (20-period highest high)"},
+    "DonchCh20.Lower": {"type": "float", "range": None, "units": "currency", "description": "Lower Donchian Channel (20-period lowest low)"},
 
     # Volume & Flow fields
     "ChaikinMoneyFlow": {"type": "float", "range": [-1, 1], "units": "ratio", "description": "Chaikin Money Flow indicator"},
     "average_volume_10d_calc": {"type": "float", "range": [0, None], "units": "count", "description": "10-day average volume"},
     "average_volume_30d_calc": {"type": "float", "range": [0, None], "units": "count", "description": "30-day average volume"},
+    "average_volume_60d_calc": {"type": "float", "range": [0, None], "units": "count", "description": "60-day average volume"},
     "relative_volume_10d_calc": {"type": "float", "range": [0, None], "units": "ratio", "description": "Relative volume vs 10-day average"},
 
     # Composite signals
@@ -291,6 +299,8 @@ FIELD_METADATA: Dict[str, Dict[str, Any]] = {
     "Perf.5Y": {"type": "float", "range": None, "units": "percent", "description": "5-year performance return"},
     "Perf.YTD": {"type": "float", "range": None, "units": "percent", "description": "Year-to-date performance return"},
     "Perf.5D": {"type": "float", "range": None, "units": "percent", "description": "5-day performance return"},
+    "Perf.Y": {"type": "float", "range": None, "units": "percent", "description": "1-year performance return"},
+    "Perf.10Y": {"type": "float", "range": None, "units": "percent", "description": "10-year performance return"},
 
     # Price extremes fields
     "price_52_week_high": {"type": "float", "range": [0, None], "units": "currency", "description": "52-week high price"},

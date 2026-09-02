@@ -1,6 +1,6 @@
 # tv-mcp
 
-A Model Context Protocol (MCP) server that exposes a `screen_stocks` tool for filtering stocks using 130 fields from the TradingView screener API.
+A Model Context Protocol (MCP) server that exposes a `screen_stocks` tool for filtering stocks using 135 fields from the TradingView screener API.
 
 ## Installation
 
@@ -222,8 +222,8 @@ Use exact TradingView field names when specifying `columns` or `filters`. 135 fi
 |----------|-----------------------|
 | **Trend** | `EMA5`, `EMA10`, `EMA20`, `EMA50`, `EMA100`, `EMA200`, `ADX`, `Ichimoku.BLine`, `Ichimoku.CLine` |
 | **Momentum** | `RSI`, `CCI20`, `AO`, `Stoch.K`, `Stoch.D` |
-| **Volatility** | `ATR`, `BB.upper`, `BB.lower`, `BBPower`, `Donchian.upper`, `Donchian.lower` |
-| **Volume/Flow** | `ChaikinMoneyFlow`, `Volume`, `average_volume_10d_calc`, `average_volume_30d_calc`, `relative_volume_10d_calc`, `RelativeVolume` |
+| **Volatility** | `ATR`, `BB.upper`, `BB.lower`, `BBPower`, `DonchCh20.Upper`, `DonchCh20.Lower` |
+| **Volume/Flow** | `ChaikinMoneyFlow`, `average_volume_10d_calc`, `average_volume_30d_calc`, `average_volume_60d_calc`, `relative_volume_10d_calc` |
 | **Composite** | `Recommend.All`, `Recommend.MA`, `Recommend.Other` |
 | **Price/Structure** | `close`, `open`, `high`, `low`, `change`, `change_abs`, `name`, `volume`, `market_cap_basic`, `Value.Traded` |
 | **Valuation** | `price_earnings_ttm`, `price_earnings_forward_fy`, `price_book_ratio`, `price_book_fq`, `price_sales_ratio`, `price_revenue_ttm`, `price_free_cash_flow_ttm`, `enterprise_value_ebitda_ttm` |
@@ -231,7 +231,7 @@ Use exact TradingView field names when specifying `columns` or `filters`. 135 fi
 | **Growth** | `total_revenue_yoy_growth_ttm`, `earnings_per_share_diluted_yoy_growth_ttm`, `free_cash_flow_yoy_growth_ttm`, `total_revenue_qoq_growth_fq`, `earnings_per_share_diluted_qoq_growth_fq` |
 | **Balance Sheet** | `total_assets`, `total_debt`, `shrhldrs_equity_fq`, `current_ratio`, `quick_ratio`, `debt_to_equity` |
 | **Quality** | `piotroski_f_score_ttm`, `altman_z_score_ttm` |
-| **Performance** | `Perf.W`, `Perf.1M`, `Perf.3M`, `Perf.6M`, `Perf.1Y`, `Perf.3Y`, `Perf.5Y`, `Perf.YTD`, `Perf.5D` |
+| **Performance** | `Perf.5D`, `Perf.W`, `Perf.1M`, `Perf.3M`, `Perf.6M`, `Perf.YTD`, `Perf.Y`, `Perf.3Y`, `Perf.5Y`, `Perf.10Y` |
 | **Price Extremes** | `price_52_week_high`, `price_52_week_low`, `High.All`, `Low.All`, `High.1M`, `Low.1M`, `High.3M`, `Low.3M`, `High.6M`, `Low.6M` |
 | **Gap** | `gap`, `gap_up`, `gap_down`, `premarket_gap` |
 | **Dividend** | `dps_common_stock_prim_issue_fy`, `dps_common_stock_prim_issue_fq`, `dividend_yield_recent`, `dividend_payout_ratio_fy`, `dividend_payout_ratio_ttm`, `dividends_paid`, `ex_dividend_date_recent`, `ex_dividend_date_upcoming` |

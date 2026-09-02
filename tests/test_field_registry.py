@@ -55,6 +55,26 @@ def test_get_all_fields_matches_category_union():
 # ============================================================================
 
 
+def test_registry_totals_match_public_claims():
+    """The README and tool docstring advertise 135 fields across 19 categories."""
+    assert len(FIELD_CATEGORIES) == 19
+    assert len(get_all_fields()) == 135
+    assert len(FIELD_METADATA) == 135
+
+
+def test_phantom_field_names_are_absent():
+    """Names that were once documented but never existed in TradingView must not be in the registry."""
+    phantom = {"Donchian.upper", "Donchian.lower", "Volume", "RelativeVolume", "Perf.1Y"}
+    assert not (phantom & get_all_fields())
+
+
+def test_launch_audit_added_fields_present():
+    """Fields added in the launch audit (live-verified 2026-09-02) sit in the expected categories."""
+    assert {"DonchCh20.Upper", "DonchCh20.Lower"} <= FIELD_CATEGORIES["volatility"]
+    assert "average_volume_60d_calc" in FIELD_CATEGORIES["volume_flow"]
+    assert {"Perf.Y", "Perf.10Y"} <= FIELD_CATEGORIES["performance"]
+
+
 def test_valuation_fields_present():
     """Assert that all required valuation fields exist in the registry."""
     required_valuation_fields = {
@@ -159,6 +179,8 @@ def test_performance_fields_present():
         "Perf.5Y",
         "Perf.YTD",
         "Perf.5D",
+        "Perf.Y",
+        "Perf.10Y",
     }
 
     performance_category = FIELD_CATEGORIES.get("performance", set())
