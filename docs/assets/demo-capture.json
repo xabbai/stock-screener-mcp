@@ -1,0 +1,51 @@
+{
+  "captured": "2026-09-02",
+  "total_count": 38,
+  "rows": [
+    {
+      "name": "HWM",
+      "close": 254.89,
+      "RSI": 37.3,
+      "EMA200": 245.73,
+      "market_cap_basic": 101650485439.14201,
+      "relative_volume_10d_calc": 1.93,
+      "Value.Traded": 1412620516.31
+    },
+    {
+      "name": "CSX",
+      "close": 48.7,
+      "RSI": 35.8,
+      "EMA200": 44.16,
+      "market_cap_basic": 90215522368.54881,
+      "relative_volume_10d_calc": 1.8,
+      "Value.Traded": 776582569.8000001
+    },
+    {
+      "name": "GD",
+      "close": 369.41,
+      "RSI": 36.9,
+      "EMA200": 353.55,
+      "market_cap_basic": 99946533178.8872,
+      "relative_volume_10d_calc": 1.54,
+      "Value.Traded": 469002566.59000003
+    },
+    {
+      "name": "IRM",
+      "close": 114.22,
+      "RSI": 34.0,
+      "EMA200": 114.12,
+      "market_cap_basic": 34003615630.05323,
+      "relative_volume_10d_calc": 1.64,
+      "Value.Traded": 256828467.24
+    },
+    {
+      "name": "FWONK",
+      "close": 96.95,
+      "RSI": 38.3,
+      "EMA200": 94.32,
+      "market_cap_basic": 24109273914.48024,
+      "relative_volume_10d_calc": 1.52,
+      "Value.Traded": 228210023.3
+    }
+  ]
+}
