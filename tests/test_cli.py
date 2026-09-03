@@ -11,7 +11,15 @@ import tv_mcp.tv_mcp as server
 
 
 def test_server_is_branded():
-    assert server.mcp.name == "tv-mcp"
+    assert server.mcp.name == "stock-screener-mcp"
+
+
+def test_both_console_scripts_point_at_main():
+    import tomllib
+    from pathlib import Path
+
+    scripts = tomllib.loads((Path(__file__).resolve().parents[1] / "pyproject.toml").read_text())["project"]["scripts"]
+    assert scripts["stock-screener-mcp"] == scripts["tv-mcp-server"] == "tv_mcp.tv_mcp:_main"
 
 
 def test_field_registry_imported_as_package_module():
@@ -22,7 +30,7 @@ def test_version_flag_prints_package_version(capsys):
     with pytest.raises(SystemExit) as exc:
         server._parse_args(["--version"])
     assert exc.value.code == 0
-    assert capsys.readouterr().out.strip() == f"tv-mcp {server.__version__}"
+    assert capsys.readouterr().out.strip() == f"stock-screener-mcp {server.__version__}"
     assert server.__version__ not in ("", "0.0.0+unknown")
 
 

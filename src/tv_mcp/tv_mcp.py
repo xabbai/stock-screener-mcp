@@ -31,7 +31,7 @@ SUPPORTED_TRANSPORTS = {"streamable-http", "stdio"}
 CONFIG_ENV_VAR = "STOCK_TOOLS_CONFIG"
 
 try:
-    __version__ = _pkg_version("tv-mcp")
+    __version__ = _pkg_version("stock-screener-mcp")
 except PackageNotFoundError:  # running from a plain source tree without installation
     __version__ = "0.0.0+unknown"
 
@@ -82,7 +82,7 @@ _ASCII_BANNER = r"""
   |_|      \_/            |_|  |_|  \____| |_|
 """
 
-mcp = FastMCP("tv-mcp")
+mcp = FastMCP("stock-screener-mcp")
 
 
 def deserialize_content(content):
@@ -514,12 +514,12 @@ def _load_browser_cookies():
         return None
 
     try:
-        import rookiepy  # optional extra: pip install "tv-mcp[cookies]"
+        import rookiepy  # optional extra: pip install "stock-screener-mcp[cookies]"
     except ImportError:
         if policy == "on":
             raise ValueError(
                 f"{COOKIE_POLICY_ENV}=on but the optional 'rookiepy' package is not installed. "
-                "Install it with: pip install 'tv-mcp[cookies]'"
+                "Install it with: pip install 'stock-screener-mcp[cookies]'"
             ) from None
         logger.debug("rookiepy not installed; using public TradingView data.")
         return None
@@ -631,9 +631,9 @@ def _run_server(config: dict[str, Any]) -> None:
 def _build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="tv-mcp-server",
-        description="Run the tv-mcp TradingView screener MCP server.",
+        description="Run the stock-screener-mcp TradingView screener MCP server (installed as both stock-screener-mcp and tv-mcp-server).",
     )
-    parser.add_argument("--version", action="version", version=f"tv-mcp {__version__}")
+    parser.add_argument("--version", action="version", version=f"stock-screener-mcp {__version__}")
     parser.add_argument(
         "--config",
         help=(

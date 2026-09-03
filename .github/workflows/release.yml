@@ -59,12 +59,12 @@ jobs:
           set -euo pipefail
           NOTES=docs/releases/initial-release.md
           [ -f "docs/releases/${GITHUB_REF_NAME}.md" ] && NOTES="docs/releases/${GITHUB_REF_NAME}.md"
-          gh release create "$GITHUB_REF_NAME" --draft --title "tv-mcp $GITHUB_REF_NAME" --notes-file "$NOTES" dist/*.whl dist/*.tar.gz dist/SHA256SUMS
+          gh release create "$GITHUB_REF_NAME" --draft --title "stock-screener-mcp $GITHUB_REF_NAME" --notes-file "$NOTES" dist/*.whl dist/*.tar.gz dist/SHA256SUMS
 
   pypi:
     name: Publish to PyPI (trusted publishing)
     needs: build
-    if: github.repository == 'xabbai/tv-mcp' || github.repository == 'xabbai/tradingview-screener-mcp'
+    if: github.repository == 'xabbai/stock-screener-mcp'
     runs-on: ubuntu-latest
     environment: pypi   # must be created by a maintainer; add PyPI trusted publisher first
     permissions:

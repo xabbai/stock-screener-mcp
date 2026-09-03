@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "tv-mcp"
+name = "stock-screener-mcp"
 version = "0.1.0"
-description = "A tool for stock recommendations using the tradingview API."
+description = "TradingView stock screener as an MCP tool for AI agents: 135 fields, one screen_stocks tool."
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
@@ -20,6 +20,7 @@ dependencies = [
 ]
 
 [project.scripts]
+stock-screener-mcp = "tv_mcp.tv_mcp:_main"
 tv-mcp-server = "tv_mcp.tv_mcp:_main"
 
 [project.optional-dependencies]
@@ -35,9 +36,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/xabbai/tv-mcp"
-Repository = "https://github.com/xabbai/tv-mcp"
-Issues = "https://github.com/xabbai/tv-mcp/issues"
+Homepage = "https://github.com/xabbai/stock-screener-mcp"
+Repository = "https://github.com/xabbai/stock-screener-mcp"
+Issues = "https://github.com/xabbai/stock-screener-mcp/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/tv_mcp"]
