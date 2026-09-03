@@ -1,4 +1,4 @@
-# tv-mcp — TradingView Stock Screener for AI Agents
+# stock-screener-mcp — TradingView Stock Screener for AI Agents
 
 An open-source [MCP](https://modelcontextprotocol.io) server that lets Claude, Cursor, VS Code and other MCP clients screen global stocks using 135 TradingView fields across fundamentals, technicals, momentum, volume, valuation and more.
 
@@ -8,7 +8,7 @@ An open-source [MCP](https://modelcontextprotocol.io) server that lets Claude, C
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
 [![MCP](https://img.shields.io/badge/protocol-MCP-black.svg)](https://modelcontextprotocol.io)
 
-![Demo: an MCP client asks for oversold large-cap US stocks above their 200-day EMA, tv-mcp calls screen_stocks and returns a ranked table](docs/assets/demo.gif)
+![Demo: an MCP client asks for oversold large-cap US stocks above their 200-day EMA, stock-screener-mcp calls screen_stocks and returns a ranked table](docs/assets/demo.gif)
 
 *Rendered from a real screen result (public data, 2026-09-02); [docs/demo-script.md](docs/demo-script.md) has the prompt, expected call, and steps to record a GUI client.*
 
@@ -34,9 +34,9 @@ Every one of these was executed against the live screener while writing this pag
 ```json
 {
   "mcpServers": {
-    "tv-mcp": {
+    "stock-screener-mcp": {
       "command": "uvx",
-      "args": ["--from", "git+https://github.com/xabbai/tv-mcp", "tv-mcp-server", "--transport", "stdio"]
+      "args": ["--from", "git+https://github.com/xabbai/stock-screener-mcp", "tv-mcp-server", "--transport", "stdio"]
     }
   }
 }
@@ -45,7 +45,7 @@ Every one of these was executed against the live screener while writing this pag
 Claude Code:
 
 ```bash
-claude mcp add tv-mcp -- uvx --from git+https://github.com/xabbai/tv-mcp tv-mcp-server --transport stdio
+claude mcp add stock-screener-mcp -- uvx --from git+https://github.com/xabbai/stock-screener-mcp tv-mcp-server --transport stdio
 ```
 
 VS Code and HTTP setups: [docs/client-configs.md](docs/client-configs.md).
@@ -132,14 +132,14 @@ All nine parameters are required by the tool schema; pass `[]` or `""` to use de
 **One command (no checkout):**
 
 ```bash
-uvx --from git+https://github.com/xabbai/tv-mcp tv-mcp-server --transport stdio
+uvx --from git+https://github.com/xabbai/stock-screener-mcp tv-mcp-server --transport stdio
 ```
 
 **From source (contributors):**
 
 ```bash
-git clone https://github.com/xabbai/tv-mcp.git
-cd tv-mcp
+git clone https://github.com/xabbai/stock-screener-mcp.git
+cd stock-screener-mcp
 uv sync --extra test          # or: pip install -e ".[test]"
 uv run pytest -m "not network"
 uv run tv-mcp-server --transport stdio
@@ -149,7 +149,7 @@ uv run tv-mcp-server --transport stdio
 
 ## Configuration
 
-`tv-mcp-server` works without any configuration. Precedence is command-line flags → `config.json` → built-in defaults (`streamable-http` on `127.0.0.1:8000`).
+`tv-mcp-server` (also installed as `stock-screener-mcp`; both run the same server) works without any configuration. Precedence is command-line flags → `config.json` → built-in defaults (`streamable-http` on `127.0.0.1:8000`).
 
 | Flag | Description |
 |------|-------------|
@@ -189,11 +189,11 @@ Operators: `greater`, `egreater`, `less`, `eless`, `equal`, `nequal`, `in_range`
 
 ## Live data (optional)
 
-By default tv-mcp queries TradingView's public screener, which is delayed for some exchanges. With the `cookies` extra installed and `TV_MCP_BROWSER_COOKIES` unset or `auto`, the server reads your Chrome browser's `tradingview.com` cookies on each query and requests data as your logged-in user. Cookies are held in memory only and never written to disk or logs. Set `TV_MCP_BROWSER_COOKIES=off` to disable, or `on` to fail instead of silently falling back.
+By default stock-screener-mcp queries TradingView's public screener, which is delayed for some exchanges. With the `cookies` extra installed and `TV_MCP_BROWSER_COOKIES` unset or `auto`, the server reads your Chrome browser's `tradingview.com` cookies on each query and requests data as your logged-in user. Cookies are held in memory only and never written to disk or logs. Set `TV_MCP_BROWSER_COOKIES=off` to disable, or `on` to fail instead of silently falling back.
 
 ## Limitations and disclaimers
 
-- **Not affiliated with TradingView.** tv-mcp uses the community [`tradingview-screener`](https://github.com/shner-elmo/TradingView-Screener) library, which relies on an undocumented TradingView endpoint. Field names, limits and availability can change without notice, and your use is subject to TradingView's terms of service.
+- **Not affiliated with TradingView.** stock-screener-mcp uses the community [`tradingview-screener`](https://github.com/shner-elmo/TradingView-Screener) library, which relies on an undocumented TradingView endpoint. Field names, limits and availability can change without notice, and your use is subject to TradingView's terms of service.
 - **No accuracy claim, no liability.** The maintainer does not claim that any data returned is correct, complete, or up to date, and cannot be held liable for wrong, delayed, or missing data returned by this tool or by TradingView. Use at your own risk; nothing here is investment advice. Full text: [DISCLAIMER.md](DISCLAIMER.md).
 - Screeners return the current state only: no historical time series, backtesting, streaming, alerts, or order execution.
 - Some fields are only populated for specific instrument types (ETF, IPO) or markets.
@@ -204,7 +204,7 @@ By default tv-mcp queries TradingView's public screener, which is delayed for so
 |---------|-----|
 | Client shows no `screen_stocks` tool | Run the exact `command` + `args` from your config in a terminal; the server must start with `--transport stdio` for subprocess clients. Restart the client after editing config. |
 | `uvx: command not found` | Install uv and restart the client so it inherits the updated `PATH`. |
-| `No module named 'mcp.server.fastmcp'` | An old install resolved `mcp` 2.x. Reinstall; tv-mcp pins `mcp<2`. |
+| `No module named 'mcp.server.fastmcp'` | An old install resolved `mcp` 2.x. Reinstall; stock-screener-mcp pins `mcp<2`. |
 | `Unsupported field 'X'. Did you mean: …` | Use the exact name from [docs/field-reference.md](docs/field-reference.md); names are case-sensitive. |
 | Empty `rows` | Loosen filters; screens run live and results change during the session. |
 | `TV_MCP_BROWSER_COOKIES=on` error | Install the `cookies` extra and log in to TradingView in Chrome. |

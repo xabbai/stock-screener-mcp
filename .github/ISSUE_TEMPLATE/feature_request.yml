@@ -37,7 +37,7 @@ body:
     id: proposal
     attributes:
       label: Proposed change
-      description: What should tv-mcp expose or do differently?
+      description: What should stock-screener-mcp expose or do differently?
   - type: textarea
     id: alternatives
     attributes:

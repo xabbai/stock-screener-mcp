@@ -1,6 +1,6 @@
 # Field reference
 
-tv-mcp exposes **135 TradingView screener fields** in **19 categories**. Use these exact names in `columns`, `filters[].left`, `filters[].right` (field-to-field comparison) and `sort_by`.
+stock-screener-mcp exposes **135 TradingView screener fields** in **19 categories**. Use these exact names in `columns`, `filters[].left`, `filters[].right` (field-to-field comparison) and `sort_by`.
 
 Field names follow the TradingView scanner API; see the community list at <https://shner-elmo.github.io/TradingView-Screener/fields/stocks.html> for fields not yet included here. Availability of a value can vary by market and instrument type (for example ETF and IPO fields are null for most stocks).
 

@@ -81,4 +81,4 @@ uv run --with pillow python scripts/make_demo_gif.py capture
 uv run --with pillow python scripts/make_demo_gif.py render
 ```
 
-Alt text used in README: "Demo: an MCP client asks for oversold large-cap US stocks above their 200-day EMA, tv-mcp calls screen_stocks and returns a ranked table". Replace the rendered GIF with a real GUI recording when one passes the checklist above.
+Alt text used in README: "Demo: an MCP client asks for oversold large-cap US stocks above their 200-day EMA, stock-screener-mcp calls screen_stocks and returns a ranked table". Replace the rendered GIF with a real GUI recording when one passes the checklist above.

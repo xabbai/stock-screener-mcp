@@ -14,7 +14,7 @@ First public release. Replace "Unreleased" with the tag date when `v0.1.0` is cr
 - `screen_stocks` MCP tool exposing 135 TradingView screener fields in 19 categories (trend, momentum, volatility, volume, ratings, price, valuation, profitability, growth, balance sheet, quality scores, performance, price extremes, gaps, dividends, ETF/fund, IPO, advanced technical, candlestick patterns).
 - AND/OR filter trees with nesting, 24 filter operators including field-to-field comparisons and crossovers, sorting, pagination (`limit` 1–500, `offset` ≥ 0), market selection, language.
 - Case-insensitive and fuzzy suggestions for unknown field names.
-- `tv-mcp-server` console script with `--transport {stdio,streamable-http}`, `--host`, `--port`, `--config`, `--version`; optional `config.json` and `STOCK_TOOLS_CONFIG`.
+- `tv-mcp-server` console script (also installed as `stock-screener-mcp`) with `--transport {stdio,streamable-http}`, `--host`, `--port`, `--config`, `--version`; optional `config.json` and `STOCK_TOOLS_CONFIG`.
 - Optional authenticated data via Chrome cookies (`cookies` extra) controlled by `TV_MCP_BROWSER_COOKIES=auto|on|off`.
 - `DISCLAIMER.md`: the maintainer makes no claim that returned data is correct, complete, or up to date and accepts no liability for wrong, delayed, or missing data from the tool or TradingView; referenced from README and release notes.
 - Documentation: README landing page, generated field reference (`docs/field-reference.md`), validated client configurations (Claude Desktop, Claude Code, Cursor, VS Code), troubleshooting guide, demo script and GIF, naming decision, GitHub metadata and settings checklists, launch drafts, post-launch plan.
@@ -29,8 +29,9 @@ First public release. Replace "Unreleased" with the tag date when `v0.1.0` is cr
 ### Changed
 - Source distribution now contains only source, tests, license and the files needed to run tests (previously 497 files including vendored repositories).
 - License and project URLs declared in standard `pyproject.toml` tables.
-- FastMCP server name is `tv-mcp`; `field_registry` is imported as a package module.
+- Project renamed from `tv-mcp` to `stock-screener-mcp` (distribution, repository, FastMCP server name, `--version` output); `tv-mcp` is taken on PyPI and a "tradingview-" name carries trademark risk. The import package `tv_mcp`, the `tv-mcp-server` command and `TV_MCP_BROWSER_COOKIES` are unchanged.
+- `field_registry` is imported as a package module.
 
 <!-- Link references become valid once the v0.1.0 tag exists. -->
-[Unreleased]: https://github.com/xabbai/tv-mcp/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/xabbai/tv-mcp/releases/tag/v0.1.0
+[Unreleased]: https://github.com/xabbai/stock-screener-mcp/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/xabbai/stock-screener-mcp/releases/tag/v0.1.0

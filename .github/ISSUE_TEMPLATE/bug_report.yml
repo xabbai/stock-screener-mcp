@@ -1,5 +1,5 @@
 name: Bug report
-description: Something in tv-mcp does not work as documented
+description: Something in stock-screener-mcp does not work as documented
 title: "[Bug]: "
 labels: ["bug", "triage"]
 body:
@@ -33,9 +33,9 @@ body:
   - type: dropdown
     id: install
     attributes:
-      label: How did you install tv-mcp?
+      label: How did you install stock-screener-mcp?
       options:
-        - uvx --from git+https://github.com/xabbai/tv-mcp
+        - uvx --from git+https://github.com/xabbai/stock-screener-mcp
         - Local checkout (uv run / pip install -e .)
         - Other (describe below)
     validations:
@@ -58,7 +58,7 @@ body:
     id: command
     attributes:
       label: Exact server command line
-      placeholder: uvx --from git+https://github.com/xabbai/tv-mcp tv-mcp-server --transport stdio
+      placeholder: uvx --from git+https://github.com/xabbai/stock-screener-mcp tv-mcp-server --transport stdio
     validations:
       required: true
   - type: dropdown

@@ -1,14 +1,14 @@
-# tv-mcp v0.1.0 — TradingView Stock Screener for AI Agents
+# stock-screener-mcp v0.1.0 — TradingView Stock Screener for AI Agents
 
 **135 TradingView fields. One MCP tool.**
 
-tv-mcp is an open-source MCP server that lets Claude, Cursor, VS Code and other MCP clients screen global stocks using the TradingView screener: fundamentals, technicals, momentum, volume, valuation, dividends, ETFs, IPO data and candlestick patterns, with AND/OR filters, sorting and pagination.
+stock-screener-mcp is an open-source MCP server that lets Claude, Cursor, VS Code and other MCP clients screen global stocks using the TradingView screener: fundamentals, technicals, momentum, volume, valuation, dividends, ETFs, IPO data and candlestick patterns, with AND/OR filters, sorting and pagination.
 
 ## Highlights
 
 - **One tool, 135 fields, 19 categories** — exact TradingView field names, documented in a generated [field reference](../field-reference.md).
 - **Real filter logic** — nested AND/OR trees, 24 operators (`greater`, `in_range`, `crosses_above`, `above%`, …), field-to-field comparisons such as `close > EMA200`.
-- **One-command install** — `uvx --from git+https://github.com/xabbai/tv-mcp tv-mcp-server --transport stdio`; validated configs for Claude Desktop, Claude Code, Cursor and VS Code.
+- **One-command install** — `uvx --from git+https://github.com/xabbai/stock-screener-mcp tv-mcp-server --transport stdio`; validated configs for Claude Desktop, Claude Code, Cursor and VS Code.
 - **Honest errors** — unknown fields get case-insensitive and fuzzy suggestions; validation errors come back inside the tool result.
 - **stdio and Streamable HTTP** transports; no config file required.
 - **Optional authenticated data** through your own TradingView browser session, controlled by `TV_MCP_BROWSER_COOKIES`.
@@ -17,10 +17,10 @@ tv-mcp is an open-source MCP server that lets Claude, Cursor, VS Code and other 
 
 ```bash
 # no checkout needed (requires uv)
-uvx --from git+https://github.com/xabbai/tv-mcp tv-mcp-server --transport stdio
+uvx --from git+https://github.com/xabbai/stock-screener-mcp tv-mcp-server --transport stdio
 
 # from source
-git clone https://github.com/xabbai/tv-mcp.git && cd tv-mcp
+git clone https://github.com/xabbai/stock-screener-mcp.git && cd stock-screener-mcp
 uv sync --extra test && uv run tv-mcp-server --transport stdio
 ```
 
@@ -54,7 +54,7 @@ The client calls `screen_stocks` with four filters and gets `{"total_count": …
 ## Known issues
 
 - GUI clients were validated through the MCP stdio client and documented configurations; end-to-end GUI walkthroughs with screenshots are tracked as a help-wanted issue.
-- The project may be renamed to `tradingview-screener-mcp` (see `docs/naming-decision.md`); GitHub redirects the old URL.
+- The project was renamed from `tv-mcp` to `stock-screener-mcp` before this release (`docs/naming-decision.md`); the import package `tv_mcp` and the `tv-mcp-server` command are unchanged, and `stock-screener-mcp` is installed as a second command.
 
 ## Upgrade notes
 

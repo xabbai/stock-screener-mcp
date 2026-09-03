@@ -1,4 +1,4 @@
-# Contributing to tv-mcp
+# Contributing to stock-screener-mcp
 
 Thanks for helping make stock screening easier for AI agents. This guide covers setup, tests, style, and the two most common contributions: adding fields and adding client/market support.
 
@@ -7,8 +7,8 @@ Thanks for helping make stock screening easier for AI agents. This guide covers 
 Requirements: Python 3.11+ and [uv](https://docs.astral.sh/uv/) (recommended) or pip.
 
 ```bash
-git clone https://github.com/xabbai/tv-mcp.git
-cd tv-mcp
+git clone https://github.com/xabbai/stock-screener-mcp.git
+cd stock-screener-mcp
 uv sync --extra test            # creates .venv with runtime + test deps
 uv run tv-mcp-server --help
 ```

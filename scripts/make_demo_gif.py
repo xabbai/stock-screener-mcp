@@ -107,7 +107,7 @@ def render() -> None:
         d.ellipse([14, 13, 28, 27], fill=(255, 95, 86))
         d.ellipse([36, 13, 50, 27], fill=(255, 189, 46))
         d.ellipse([58, 13, 72, 27], fill=(39, 201, 63))
-        d.text((90, 10), "MCP client  ·  tv-mcp  ·  screen_stocks", fill=DIM, font=font)
+        d.text((90, 10), "MCP client  ·  stock-screener-mcp  ·  screen_stocks", fill=DIM, font=font)
         y = 58
         for text, color, f in lines:
             d.text((24, y), text, fill=color, font=f)
@@ -156,7 +156,7 @@ def render() -> None:
     tag = [("", FG, font)] * 5 + [
         ("135 TradingView fields. One MCP tool.", FG, big),
         ("", FG, font),
-        ("github.com/xabbai/tv-mcp  ·  MIT  ·  not affiliated with TradingView", DIM, font),
+        ("github.com/xabbai/stock-screener-mcp  ·  MIT  ·  not affiliated with TradingView", DIM, font),
         ("Screening data only — not investment advice.", DIM, font),
     ]
     frames.append((frame(tag), 5000))

@@ -26,7 +26,7 @@ def main() -> None:
     d = ImageDraw.Draw(im)
     # left accent bar
     d.rectangle([0, 0, 14, H], fill=(99, 179, 237))
-    d.text((70, 70), "tv-mcp", fill=(140, 146, 158), font=font(MONO, 34))
+    d.text((70, 70), "stock-screener-mcp", fill=(140, 146, 158), font=font(MONO, 34))
     d.text(
         (70, 130), "TradingView Stock Screener", fill=(235, 237, 240), font=font(FONT.replace(".ttf", "-Bold.ttf"), 64)
     )
@@ -46,9 +46,9 @@ def main() -> None:
     )
     d.text(
         (70, 560),
-        "github.com/xabbai/tv-mcp   ·   MIT   ·   not affiliated with TradingView",
+        "github.com/xabbai/stock-screener-mcp  ·  MIT  ·  not affiliated with TradingView",
         fill=(140, 146, 158),
-        font=font(MONO, 24),
+        font=font(MONO, 22),
     )
     OUT.parent.mkdir(parents=True, exist_ok=True)
     im.save(OUT, optimize=True)

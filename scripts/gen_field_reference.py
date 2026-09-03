@@ -56,7 +56,7 @@ def render() -> str:
     lines = [
         "# Field reference",
         "",
-        f"tv-mcp exposes **{len(fields)} TradingView screener fields** in **{len(FIELD_CATEGORIES)} categories**. "
+        f"stock-screener-mcp exposes **{len(fields)} TradingView screener fields** in **{len(FIELD_CATEGORIES)} categories**. "
         "Use these exact names in `columns`, `filters[].left`, `filters[].right` (field-to-field comparison) and `sort_by`.",
         "",
         "Field names follow the TradingView scanner API; see the community list at "

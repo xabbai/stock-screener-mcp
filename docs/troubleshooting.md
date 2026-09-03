@@ -26,9 +26,9 @@ Symptoms are grouped by where they appear. Every fix below was checked against t
 
 ## `No module named 'mcp.server.fastmcp'`
 
-**Cause:** an environment resolved `mcp` 2.x, which renamed FastMCP. tv-mcp pins `mcp<2`.
+**Cause:** an environment resolved `mcp` 2.x, which renamed FastMCP. stock-screener-mcp pins `mcp<2`.
 
-- Reinstall / upgrade tv-mcp, or in a source checkout run `uv sync`.
+- Reinstall / upgrade stock-screener-mcp, or in a source checkout run `uv sync`.
 
 ## `Unsupported field 'X'. Did you mean: …`
 
@@ -60,7 +60,7 @@ Allowed operators are listed in [field-reference.md](field-reference.md#filter-o
 
 | Message | Fix |
 |---------|-----|
-| `TV_MCP_BROWSER_COOKIES=on but the optional 'rookiepy' package is not installed` | Install the extra: `uv sync --extra cookies` or `pip install "tv-mcp[cookies]"`. With `uvx`, use `--from "git+https://github.com/xabbai/tv-mcp#egg=tv-mcp[cookies]"`. |
+| `TV_MCP_BROWSER_COOKIES=on but the optional 'rookiepy' package is not installed` | Install the extra: `uv sync --extra cookies` or `pip install "stock-screener-mcp[cookies]"`. With `uvx`, use `--from "git+https://github.com/xabbai/stock-screener-mcp#egg=stock-screener-mcp[cookies]"`. |
 | `Could not read Chrome cookies for tradingview.com` | Log in to TradingView in Chrome, close and reopen the browser, and ensure Chrome's cookie database is readable (on Linux the profile must not be locked by a different user). |
 | Data still looks delayed | Cookie extraction succeeded but your TradingView plan may not include real-time data for that exchange. |
 
@@ -73,7 +73,7 @@ Set `TV_MCP_BROWSER_COOKIES=off` to guarantee public-data-only behavior.
 
 ## Windows notes
 
-- Use forward slashes or escaped backslashes in JSON paths (`"C:/tools/tv-mcp"`).
+- Use forward slashes or escaped backslashes in JSON paths (`"C:/tools/stock-screener-mcp"`).
 - If `uvx` is installed for the current user only, GUI clients started as a different user will not find it.
 
 ## Getting more detail
