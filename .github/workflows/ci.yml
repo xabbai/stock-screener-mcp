@@ -99,4 +99,4 @@ jobs:
       - run: uv sync --extra test
       - run: uv run pytest -m network -q
         env:
-          TV_MCP_BROWSER_COOKIES: "off"
+          STOCK_SCREENER_MCP_BROWSER_COOKIES: "off"

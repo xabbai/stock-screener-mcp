@@ -44,7 +44,7 @@ Clients word the call slightly differently; the four filters, `markets: ["americ
 
 ## Prerequisites for recording a GUI client
 
-1. Client configured per [client-configs.md](client-configs.md) with `"env": {"TV_MCP_BROWSER_COOKIES": "off"}` — never record with a personal TradingView session.
+1. Client configured per [client-configs.md](client-configs.md) with `"env": {"STOCK_SCREENER_MCP_BROWSER_COOKIES": "off"}` — never record with a personal TradingView session.
 2. A fresh chat with no prior messages; window sized to roughly 1280×800 so text stays legible at README width.
 3. Screen-recording tool: macOS QuickTime/Cmd-Shift-5, Windows Xbox Game Bar or OBS, Linux OBS or `wf-recorder`/`ffmpeg -f x11grab`.
 
@@ -67,7 +67,7 @@ Keep it under 2 MB; trim dead time so the whole thing is ≤ 30 s.
 
 - [ ] No account name, email, avatar, or workspace name visible in the client chrome
 - [ ] No browser window, cookie banner, or Chrome profile visible
-- [ ] `TV_MCP_BROWSER_COOKIES=off` was set (public data), and no wording implies real-time data
+- [ ] `STOCK_SCREENER_MCP_BROWSER_COOKIES=off` was set (public data), and no wording implies real-time data
 - [ ] No other MCP servers or private tool names in the client's tool list
 - [ ] No local filesystem paths with usernames in the tool-call panel
 - [ ] The result table shows tickers and numbers only (public market data)

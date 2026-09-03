@@ -36,7 +36,7 @@ Every one of these was executed against the live screener while writing this pag
   "mcpServers": {
     "stock-screener-mcp": {
       "command": "uvx",
-      "args": ["--from", "git+https://github.com/xabbai/stock-screener-mcp", "tv-mcp-server", "--transport", "stdio"]
+      "args": ["--from", "git+https://github.com/xabbai/stock-screener-mcp", "stock-screener-mcp", "--transport", "stdio"]
     }
   }
 }
@@ -45,7 +45,7 @@ Every one of these was executed against the live screener while writing this pag
 Claude Code:
 
 ```bash
-claude mcp add stock-screener-mcp -- uvx --from git+https://github.com/xabbai/stock-screener-mcp tv-mcp-server --transport stdio
+claude mcp add stock-screener-mcp -- uvx --from git+https://github.com/xabbai/stock-screener-mcp stock-screener-mcp --transport stdio
 ```
 
 VS Code and HTTP setups: [docs/client-configs.md](docs/client-configs.md).
@@ -132,7 +132,7 @@ All nine parameters are required by the tool schema; pass `[]` or `""` to use de
 **One command (no checkout):**
 
 ```bash
-uvx --from git+https://github.com/xabbai/stock-screener-mcp tv-mcp-server --transport stdio
+uvx --from git+https://github.com/xabbai/stock-screener-mcp stock-screener-mcp --transport stdio
 ```
 
 **From source (contributors):**
@@ -142,14 +142,14 @@ git clone https://github.com/xabbai/stock-screener-mcp.git
 cd stock-screener-mcp
 uv sync --extra test          # or: pip install -e ".[test]"
 uv run pytest -m "not network"
-uv run tv-mcp-server --transport stdio
+uv run stock-screener-mcp --transport stdio
 ```
 
 **Optional authenticated data:** install the `cookies` extra (`uv sync --extra cookies` or `pip install -e ".[cookies]"`), log in to TradingView in Chrome, and the server reads that session's cookies in memory for each query. See [Live data](#live-data-optional).
 
 ## Configuration
 
-`tv-mcp-server` (also installed as `stock-screener-mcp`; both run the same server) works without any configuration. Precedence is command-line flags → `config.json` → built-in defaults (`streamable-http` on `127.0.0.1:8000`).
+`stock-screener-mcp` works without any configuration. Precedence is command-line flags → `config.json` → built-in defaults (`streamable-http` on `127.0.0.1:8000`).
 
 | Flag | Description |
 |------|-------------|
@@ -159,10 +159,10 @@ uv run tv-mcp-server --transport stdio
 
 | Environment variable | Description |
 |----------------------|-------------|
-| `STOCK_TOOLS_CONFIG` | Path to `config.json` (overridden by `--config`) |
-| `TV_MCP_BROWSER_COOKIES` | `auto` (default): use Chrome cookies if the `cookies` extra is installed; `off`: public data only; `on`: require cookies, fail loudly if unavailable |
+| `STOCK_SCREENER_MCP_CONFIG` | Path to `config.json` (overridden by `--config`) |
+| `STOCK_SCREENER_MCP_BROWSER_COOKIES` | `auto` (default): use Chrome cookies if the `cookies` extra is installed; `off`: public data only; `on`: require cookies, fail loudly if unavailable |
 
-**Transports:** `stdio` is the simplest local path and what every client config above uses. `streamable-http` is for running the server once and connecting several clients or containers: `tv-mcp-server --transport streamable-http --port 8000` → `http://127.0.0.1:8000/mcp`.
+**Transports:** `stdio` is the simplest local path and what every client config above uses. `streamable-http` is for running the server once and connecting several clients or containers: `stock-screener-mcp --transport streamable-http --port 8000` → `http://127.0.0.1:8000/mcp`.
 
 ## Field reference
 
@@ -189,7 +189,7 @@ Operators: `greater`, `egreater`, `less`, `eless`, `equal`, `nequal`, `in_range`
 
 ## Live data (optional)
 
-By default stock-screener-mcp queries TradingView's public screener, which is delayed for some exchanges. With the `cookies` extra installed and `TV_MCP_BROWSER_COOKIES` unset or `auto`, the server reads your Chrome browser's `tradingview.com` cookies on each query and requests data as your logged-in user. Cookies are held in memory only and never written to disk or logs. Set `TV_MCP_BROWSER_COOKIES=off` to disable, or `on` to fail instead of silently falling back.
+By default stock-screener-mcp queries TradingView's public screener, which is delayed for some exchanges. With the `cookies` extra installed and `STOCK_SCREENER_MCP_BROWSER_COOKIES` unset or `auto`, the server reads your Chrome browser's `tradingview.com` cookies on each query and requests data as your logged-in user. Cookies are held in memory only and never written to disk or logs. Set `STOCK_SCREENER_MCP_BROWSER_COOKIES=off` to disable, or `on` to fail instead of silently falling back.
 
 ## Limitations and disclaimers
 
@@ -207,7 +207,7 @@ By default stock-screener-mcp queries TradingView's public screener, which is de
 | `No module named 'mcp.server.fastmcp'` | An old install resolved `mcp` 2.x. Reinstall; stock-screener-mcp pins `mcp<2`. |
 | `Unsupported field 'X'. Did you mean: …` | Use the exact name from [docs/field-reference.md](docs/field-reference.md); names are case-sensitive. |
 | Empty `rows` | Loosen filters; screens run live and results change during the session. |
-| `TV_MCP_BROWSER_COOKIES=on` error | Install the `cookies` extra and log in to TradingView in Chrome. |
+| `STOCK_SCREENER_MCP_BROWSER_COOKIES=on` error | Install the `cookies` extra and log in to TradingView in Chrome. |
 
 ## Contributing and security
 

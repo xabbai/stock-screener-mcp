@@ -46,8 +46,8 @@ ARGS = {
 
 
 def capture() -> None:
-    os.environ["TV_MCP_BROWSER_COOKIES"] = "off"  # never record with a personal session
-    from tv_mcp.tv_mcp import _screen_stocks
+    os.environ["STOCK_SCREENER_MCP_BROWSER_COOKIES"] = "off"  # never record with a personal session
+    from stock_screener_mcp.server import _screen_stocks
 
     result = _screen_stocks(**ARGS)
     rows = [

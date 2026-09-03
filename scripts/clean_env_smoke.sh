@@ -2,7 +2,7 @@
 # Clean-environment smoke test for stock-screener-mcp.
 #
 # Builds the wheel, installs it into a brand-new virtual environment, launches
-# `tv-mcp-server --transport stdio` (legacy alias of `stock-screener-mcp`) through a real MCP stdio client, runs the README
+# `stock-screener-mcp --transport stdio` through a real MCP stdio client, runs the README
 # quick-start screen, and reports the elapsed wall-clock time.
 #
 # Usage: bash scripts/clean_env_smoke.sh [python-version]   (default 3.11)
@@ -23,11 +23,10 @@ uv venv "$TMP/venv" --python "$PY_VERSION" >/dev/null 2>&1
 echo "[3/4] Installing $(basename "$WHEEL")"
 uv pip install --python "$TMP/venv/bin/python" "$WHEEL" >/dev/null 2>&1
 
-test -x "$TMP/venv/bin/stock-screener-mcp" || { echo "stock-screener-mcp console script missing"; exit 1; }
 "$TMP/venv/bin/stock-screener-mcp" --version
 
 echo "[4/4] Running quick-start screen over stdio"
-TV_MCP_BROWSER_COOKIES=off "$TMP/venv/bin/python" - "$TMP/venv/bin/tv-mcp-server" <<'PY'
+STOCK_SCREENER_MCP_BROWSER_COOKIES=off "$TMP/venv/bin/python" - "$TMP/venv/bin/stock-screener-mcp" <<'PY'
 import asyncio, json, sys
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client

@@ -1,6 +1,6 @@
 # Troubleshooting
 
-Symptoms are grouped by where they appear. Every fix below was checked against the current CLI (`tv-mcp-server --help`). If nothing here helps, open a bug report with the issue form; it asks for the details needed to reproduce.
+Symptoms are grouped by where they appear. Every fix below was checked against the current CLI (`stock-screener-mcp --help`). If nothing here helps, open a bug report with the issue form; it asks for the details needed to reproduce.
 
 ## The client shows no `screen_stocks` tool
 
@@ -56,15 +56,15 @@ Allowed operators are listed in [field-reference.md](field-reference.md#filter-o
 - Check that `https://scanner.tradingview.com` is reachable from your machine.
 - If the failure persists across days, upstream may have changed; open a bug report with the redacted error.
 
-## Authenticated data (`TV_MCP_BROWSER_COOKIES`)
+## Authenticated data (`STOCK_SCREENER_MCP_BROWSER_COOKIES`)
 
 | Message | Fix |
 |---------|-----|
-| `TV_MCP_BROWSER_COOKIES=on but the optional 'rookiepy' package is not installed` | Install the extra: `uv sync --extra cookies` or `pip install "stock-screener-mcp[cookies]"`. With `uvx`, use `--from "git+https://github.com/xabbai/stock-screener-mcp#egg=stock-screener-mcp[cookies]"`. |
+| `STOCK_SCREENER_MCP_BROWSER_COOKIES=on but the optional 'rookiepy' package is not installed` | Install the extra: `uv sync --extra cookies` or `pip install "stock-screener-mcp[cookies]"`. With `uvx`, use `--from "git+https://github.com/xabbai/stock-screener-mcp#egg=stock-screener-mcp[cookies]"`. |
 | `Could not read Chrome cookies for tradingview.com` | Log in to TradingView in Chrome, close and reopen the browser, and ensure Chrome's cookie database is readable (on Linux the profile must not be locked by a different user). |
 | Data still looks delayed | Cookie extraction succeeded but your TradingView plan may not include real-time data for that exchange. |
 
-Set `TV_MCP_BROWSER_COOKIES=off` to guarantee public-data-only behavior.
+Set `STOCK_SCREENER_MCP_BROWSER_COOKIES=off` to guarantee public-data-only behavior.
 
 ## HTTP transport
 

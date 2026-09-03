@@ -20,8 +20,7 @@ dependencies = [
 ]
 
 [project.scripts]
-stock-screener-mcp = "tv_mcp.tv_mcp:_main"
-tv-mcp-server = "tv_mcp.tv_mcp:_main"
+stock-screener-mcp = "stock_screener_mcp.server:_main"
 
 [project.optional-dependencies]
 test = [
@@ -41,7 +40,7 @@ Repository = "https://github.com/xabbai/stock-screener-mcp"
 Issues = "https://github.com/xabbai/stock-screener-mcp/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/tv_mcp"]
+packages = ["src/stock_screener_mcp"]
 
 [tool.hatch.build.targets.sdist]
 only-include = [

@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 import pandas as pd
 import pytest
 
-import tv_mcp.tv_mcp as pull_stock_data
+import stock_screener_mcp.server as pull_stock_data
 
 
 @pytest.fixture(autouse=True)

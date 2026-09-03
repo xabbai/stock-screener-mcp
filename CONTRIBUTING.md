@@ -10,7 +10,7 @@ Requirements: Python 3.11+ and [uv](https://docs.astral.sh/uv/) (recommended) or
 git clone https://github.com/xabbai/stock-screener-mcp.git
 cd stock-screener-mcp
 uv sync --extra test            # creates .venv with runtime + test deps
-uv run tv-mcp-server --help
+uv run stock-screener-mcp --help
 ```
 
 pip alternative:
@@ -28,7 +28,7 @@ Optional extras: `--extra cookies` / `.[cookies]` for authenticated data via Chr
 |------|---------|-------|
 | Unit + docs tests (fast, offline) | `uv run pytest -m "not network"` | Run before every commit |
 | Live API tests | `uv run pytest -m network` | Hits TradingView's public scanner (~1–2 min) |
-| Quick-start through a real MCP client | `uv run pytest tests/test_quickstart.py` | Launches `tv-mcp-server --transport stdio` |
+| Quick-start through a real MCP client | `uv run pytest tests/test_quickstart.py` | Launches `stock-screener-mcp --transport stdio` |
 | Clean-environment install check | `bash scripts/clean_env_smoke.sh` | Builds the wheel, installs into a temp venv, runs the quick start |
 | Field reference up to date | `uv run python scripts/gen_field_reference.py --check` | Regenerate without `--check` after registry changes |
 
@@ -37,8 +37,8 @@ CI runs the offline suite, the build, and the field-reference check; network tes
 ## Project layout
 
 ```
-src/tv_mcp/tv_mcp.py          MCP server, screen_stocks tool, CLI
-src/tv_mcp/field_registry.py  FIELD_CATEGORIES, FIELD_METADATA — the single source of truth for fields
+src/stock_screener_mcp/server.py          MCP server, screen_stocks tool, CLI
+src/stock_screener_mcp/field_registry.py  FIELD_CATEGORIES, FIELD_METADATA — the single source of truth for fields
 tests/                        unit, e2e (mocked), network, quickstart, docs-sync tests
 docs/                         field reference (generated), client configs, troubleshooting, audit
 scripts/                      gen_field_reference.py, clean_env_smoke.sh
@@ -51,7 +51,7 @@ scripts/                      gen_field_reference.py, clean_env_smoke.sh
    uv run python -c "from tradingview_screener import Query; print(Query().select('name','Perf.Y').limit(2).get_scanner_data())"
    ```
 2. Add the name to the right category in `FIELD_CATEGORIES` and an entry in `FIELD_METADATA` (`type`, `range`, `units`, `description`).
-3. Add it to the matching category line in the `screen_stocks` docstring in `tv_mcp.py` (the docstring must stay under 300 lines; `tests/test_docs_sync.py` checks it equals the registry).
+3. Add it to the matching category line in the `screen_stocks` docstring in `stock_screener_mcp.py` (the docstring must stay under 300 lines; `tests/test_docs_sync.py` checks it equals the registry).
 4. Regenerate docs: `uv run python scripts/gen_field_reference.py`.
 5. Update the count in `tests/test_field_registry.py::test_registry_totals_match_public_claims` and, if the README states a total, the README.
 6. Run `uv run pytest -m "not network"`. Add the field to a network test if it has special availability (ETF-only, IPO-only).

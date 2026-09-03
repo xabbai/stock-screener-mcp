@@ -13,9 +13,9 @@ from mcp.server.fastmcp import FastMCP
 from tradingview_screener import Query
 from tradingview_screener.query import And, Or
 
-try:  # installed package / `python -m tv_mcp.tv_mcp`
+try:  # installed package / `python -m stock_screener_mcp.server`
     from .field_registry import get_all_fields
-except ImportError:  # run directly as a script: `python src/tv_mcp/tv_mcp.py`
+except ImportError:  # run directly as a script: `python src/stock_screener_mcp/server.py`
     _script_dir = Path(__file__).parent.resolve()
     if str(_script_dir) not in sys.path:
         sys.path.insert(0, str(_script_dir))
@@ -28,7 +28,7 @@ DEFAULT_CONFIG: dict[str, Any] = {
 }
 
 SUPPORTED_TRANSPORTS = {"streamable-http", "stdio"}
-CONFIG_ENV_VAR = "STOCK_TOOLS_CONFIG"
+CONFIG_ENV_VAR = "STOCK_SCREENER_MCP_CONFIG"
 
 try:
     __version__ = _pkg_version("stock-screener-mcp")
@@ -39,7 +39,7 @@ except PackageNotFoundError:  # running from a plain source tree without install
 #   auto (default): use Chrome cookies if the optional `rookiepy` extra is installed
 #   on:             require cookies; fail loudly if rookiepy is missing or extraction fails
 #   off:            never touch browser cookies (public data only)
-COOKIE_POLICY_ENV = "TV_MCP_BROWSER_COOKIES"
+COOKIE_POLICY_ENV = "STOCK_SCREENER_MCP_BROWSER_COOKIES"
 COOKIE_POLICIES = {"auto", "on", "off"}
 
 ALLOWED_SCREEN_FIELDS: set[str] = get_all_fields()
@@ -504,7 +504,7 @@ def _cookie_policy() -> str:
 
 def _load_browser_cookies():
     """
-    Return a cookie jar for tradingview.com according to TV_MCP_BROWSER_COOKIES, or None.
+    Return a cookie jar for tradingview.com according to STOCK_SCREENER_MCP_BROWSER_COOKIES, or None.
 
     Cookies are read from the local Chrome profile via the optional `rookiepy` extra and are
     only held in memory for the current request. They are never written to disk or logged.
@@ -630,8 +630,8 @@ def _run_server(config: dict[str, Any]) -> None:
 
 def _build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="tv-mcp-server",
-        description="Run the stock-screener-mcp TradingView screener MCP server (installed as both stock-screener-mcp and tv-mcp-server).",
+        prog="stock-screener-mcp",
+        description="Run the stock-screener-mcp TradingView screener MCP server.",
     )
     parser.add_argument("--version", action="version", version=f"stock-screener-mcp {__version__}")
     parser.add_argument(

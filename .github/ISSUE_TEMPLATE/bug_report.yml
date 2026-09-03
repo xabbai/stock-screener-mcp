@@ -58,7 +58,7 @@ body:
     id: command
     attributes:
       label: Exact server command line
-      placeholder: uvx --from git+https://github.com/xabbai/stock-screener-mcp tv-mcp-server --transport stdio
+      placeholder: uvx --from git+https://github.com/xabbai/stock-screener-mcp stock-screener-mcp --transport stdio
     validations:
       required: true
   - type: dropdown
@@ -73,7 +73,7 @@ body:
   - type: dropdown
     id: cookies
     attributes:
-      label: TV_MCP_BROWSER_COOKIES setting
+      label: STOCK_SCREENER_MCP_BROWSER_COOKIES setting
       options:
         - unset / auto (cookies extra not installed)
         - unset / auto (cookies extra installed)

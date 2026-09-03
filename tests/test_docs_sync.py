@@ -7,8 +7,8 @@ from pathlib import Path
 
 import pytest
 
-from tv_mcp.field_registry import FIELD_CATEGORIES, get_all_fields
-from tv_mcp.tv_mcp import ALLOWED_OPERATIONS
+from stock_screener_mcp.field_registry import FIELD_CATEGORIES, get_all_fields
+from stock_screener_mcp.server import ALLOWED_OPERATIONS
 
 ROOT = Path(__file__).resolve().parents[1]
 README = (ROOT / "README.md").read_text()
@@ -94,7 +94,7 @@ def test_readme_tool_call_examples_use_valid_fields_and_ops():
 
 
 def test_docstring_field_lists_match_registry():
-    from tv_mcp.tv_mcp import screen_stocks
+    from stock_screener_mcp.server import screen_stocks
 
     doc = screen_stocks.__doc__
     section = doc.split("Field categories", 1)[1].split("markets:", 1)[0]
@@ -120,7 +120,7 @@ def test_readme_relative_links_resolve():
 def test_version_consistent_across_pyproject_runtime_and_changelog():
     import tomllib
 
-    from tv_mcp.tv_mcp import __version__
+    from stock_screener_mcp.server import __version__
 
     pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text())["project"]["version"]
     changelog = (ROOT / "CHANGELOG.md").read_text()

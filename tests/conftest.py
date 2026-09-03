@@ -7,7 +7,7 @@ import pytest
 import pytest_asyncio
 from mcp.server.fastmcp import FastMCP
 
-import tv_mcp.tv_mcp as pull_stock_data
+import stock_screener_mcp.server as pull_stock_data
 
 
 class _EmbeddedClient:

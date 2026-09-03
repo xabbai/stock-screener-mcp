@@ -7,23 +7,23 @@ from unittest.mock import MagicMock
 
 import pytest
 
-import tv_mcp.tv_mcp as server
+import stock_screener_mcp.server as server
 
 
 def test_server_is_branded():
     assert server.mcp.name == "stock-screener-mcp"
 
 
-def test_both_console_scripts_point_at_main():
+def test_single_console_script_points_at_main():
     import tomllib
     from pathlib import Path
 
     scripts = tomllib.loads((Path(__file__).resolve().parents[1] / "pyproject.toml").read_text())["project"]["scripts"]
-    assert scripts["stock-screener-mcp"] == scripts["tv-mcp-server"] == "tv_mcp.tv_mcp:_main"
+    assert scripts == {"stock-screener-mcp": "stock_screener_mcp.server:_main"}
 
 
 def test_field_registry_imported_as_package_module():
-    assert "tv_mcp.field_registry" in sys.modules
+    assert "stock_screener_mcp.field_registry" in sys.modules
 
 
 def test_version_flag_prints_package_version(capsys):
@@ -80,7 +80,7 @@ def test_main_no_flags_keeps_default_transport(monkeypatch, tmp_path):
 
 
 def test_main_stdio_flag_without_config(monkeypatch, tmp_path):
-    """AC-1: `tv-mcp-server --transport stdio` works with no config file at all."""
+    """AC-1: `stock-screener-mcp --transport stdio` works with no config file at all."""
     monkeypatch.setenv(server.CONFIG_ENV_VAR, str(tmp_path / "none.json"))
     captured = {}
     monkeypatch.setattr(server, "_run_server", lambda cfg: captured.update(cfg))
@@ -144,7 +144,7 @@ def test_cookie_policy_on_raises_on_extraction_error(monkeypatch):
 
 def test_cookie_policy_invalid_value(monkeypatch):
     monkeypatch.setenv(server.COOKIE_POLICY_ENV, "maybe")
-    with pytest.raises(ValueError, match="TV_MCP_BROWSER_COOKIES"):
+    with pytest.raises(ValueError, match="STOCK_SCREENER_MCP_BROWSER_COOKIES"):
         server._load_browser_cookies()
 
 

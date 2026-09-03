@@ -8,7 +8,7 @@ and provides network-based tests for field discovery automation and schema valid
 import pytest
 from tradingview_screener import Query
 
-from tv_mcp.field_registry import FIELD_CATEGORIES, FIELD_METADATA, get_all_fields
+from stock_screener_mcp.field_registry import FIELD_CATEGORIES, FIELD_METADATA, get_all_fields
 
 # ============================================================================
 # Category Structure Validation

@@ -1,5 +1,5 @@
 """
-Quick-start smoke tests: launch the installed `tv-mcp-server` CLI exactly as an MCP client would
+Quick-start smoke tests: launch the installed `stock-screener-mcp` CLI exactly as an MCP client would
 and run the README quick-start screen over stdio.
 """
 
@@ -29,9 +29,9 @@ QUICKSTART_ARGS = {
 
 
 def _server_command():
-    exe = shutil.which("tv-mcp-server")
+    exe = shutil.which("stock-screener-mcp")
     if exe is None:
-        pytest.skip("tv-mcp-server is not on PATH (install the package first)")
+        pytest.skip("stock-screener-mcp is not on PATH (install the package first)")
     return exe
 
 
@@ -49,7 +49,7 @@ async def test_quickstart_screen_over_stdio():
     from mcp.client.stdio import stdio_client
 
     exe = _server_command()
-    env = dict(os.environ, TV_MCP_BROWSER_COOKIES="off")
+    env = dict(os.environ, STOCK_SCREENER_MCP_BROWSER_COOKIES="off")
     params = StdioServerParameters(command=exe, args=["--transport", "stdio"], env=env)
 
     async with stdio_client(params) as (read, write):
