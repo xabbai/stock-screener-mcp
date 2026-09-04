@@ -26,6 +26,7 @@ dependencies/
 
 # Legacy planning notes and personal scripts (not part of the project)
 .planning/
+.paul/
 migrate-mcp-memory/
 rename.sh
 scripts/mcp_sdk_proto.py
