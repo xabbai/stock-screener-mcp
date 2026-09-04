@@ -2,5 +2,5 @@
 # Usage: pip install -r requirements.txt -c constraints.txt
 # Generated 2026-02-23 from installed environment
 
-mcp==1.26.0
-tradingview-screener==3.0.0
+mcp==1.29.1
+tradingview-screener==3.2.1
