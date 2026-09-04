@@ -30,3 +30,13 @@ dependencies/
 migrate-mcp-memory/
 rename.sh
 scripts/mcp_sdk_proto.py
+
+# Launch/release-readiness working documents — kept locally, not published
+docs/launch-audit.md
+docs/launch-issues.md
+docs/launch-report.md
+docs/launch/
+docs/naming-decision.md
+docs/github-metadata.md
+docs/github-settings.md
+docs/post-launch-plan.md

@@ -54,7 +54,7 @@ The client calls `screen_stocks` with four filters and gets `{"total_count": …
 ## Known issues
 
 - GUI clients were validated through the MCP stdio client and documented configurations; end-to-end GUI walkthroughs with screenshots are tracked as a help-wanted issue.
-- The project was renamed from `tv-mcp` to `stock-screener-mcp` before this release (`docs/naming-decision.md`); the import package is `stock_screener_mcp`, the command is `stock-screener-mcp`, and the environment variables are `STOCK_SCREENER_MCP_BROWSER_COOKIES` / `STOCK_SCREENER_MCP_CONFIG`. There are no compatibility aliases for the old names.
+- The project was renamed from `tv-mcp` to `stock-screener-mcp` before this release; the import package is `stock_screener_mcp`, the command is `stock-screener-mcp`, and the environment variables are `STOCK_SCREENER_MCP_BROWSER_COOKIES` / `STOCK_SCREENER_MCP_CONFIG`. There are no compatibility aliases for the old names.
 
 ## Upgrade notes
 

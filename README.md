@@ -62,7 +62,7 @@ VS Code and HTTP setups: [docs/client-configs.md](docs/client-configs.md).
 | CSX | 48.70 | 35.8 | 44.16 | 90.2B | 1.80 | 777M |
 | GD | 369.41 | 36.9 | 353.55 | 99.9B | 1.54 | 469M |
 
-A fresh install to first result takes well under a minute (measured: 3 s in a clean virtual environment, see [docs/launch-audit.md](docs/launch-audit.md)).
+A fresh install to first result takes well under a minute (measured: 3 s in a clean virtual environment with `scripts/clean_env_smoke.sh`).
 
 ## Features
 
