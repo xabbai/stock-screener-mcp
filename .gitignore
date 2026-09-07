@@ -30,6 +30,11 @@ dependencies/
 migrate-mcp-memory/
 rename.sh
 scripts/mcp_sdk_proto.py
+AGENTS.md
+CLAUDE.md
+DESIGN.md
+tradingview-fields.md
+tv-mcp-open-source-launch-plan.md
 
 # Launch/release-readiness working documents — kept locally, not published
 docs/launch-audit.md
